@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.insurance.mapper.InsuranceMapper">
+
+        <sql id="InsuranceColumns">  <!-- 데이터베이스 것 -->
+        
+                    idx
+                  , ins_type 
+                  , ins_co
+                  , contract_date
+                  , contract_no
+                  , contractor
+                  , insured
+                  , prod_name
+                  , payt_exp
+                  , premium
+                  , renew_prod_yn
+                  , digi_sig_yn
+                  , delete_yn
+                  , memo_col
+                  , insert_time
+                  , update_time
+                  , delete_time              
+        </sql>
+        
+        <insert id="insertInsurance" parameterType="InsuranceDTO">
+        
+                INSERT INTO insurance
+                (
+                       <include refid = "InsuranceColumns" />  <!-- #붙은 애들은 자바 것 -->
+                ) VALUES (
+                       #{idx}
+                     , #{ins_type}
+                     , #{ins_co}
+                     , #{contract_date}
+                     , #{contract_no}
+                     , #{contractor}
+                     , #{insured}
+                     , #{prod_name}
+                     , #{payt_exp}
+                     , #{premium}
+                     , IFNULL(#{renew_prod_Yn}, 'N')
+                     , IFNULL(#{digi_sig_Yn}, 'N')
+                     , IFNULL(#{delete_Yn}, 'N')
+                     , #{memo_col}
+                     , NOW()                     
+                     , NULL
+                     , NULL
+        </insert>
+        
+        <select id="selectInsuranceDetail" parameterType="long" resultType="InsuranceDTO">
+        
+                SELECT
+                      <include refid="InsuranceColumns" />
+                FROM
+                      insurance
+                WHERE
+                      delete_yn = 'N'
+                AND
+                      idx = #{idx}        
+        </select>
+        
+        <update id="updateInsurance" parameterType="InsuranceDTO">    <!-- 게시글 작성할 때 화면 설정? -->
+        
+                UPDATE insurance
+                
+                SET
+                      update_time = NOW()
+                    , ins_type = #{ins_type}
+                    , ins_co = #{ins_co}
+                    , contract_date = #{contract_date}
+                    , contract_no = #{contract_no}
+                    , contractor = #{contractor}
+                    , insured = #{insured}
+                    , prod_name = #{prod_name}
+                    , payt_exp = #{payt_exp}
+                    , premium = #{premium}
+                    , renew_prod_yn = IFNULL(#{renew_prod_yn}, 'N')
+                    , digi_sig_yn = IFNULL(#{digi_sig_yn}, 'N')
+                    , memo_col = #{memo_col}
+                 WHERE
+                    idx = #{idx}                             
+        </update>
+        
+        <update id="deleteInsurance" parameterType="long">    <!-- 게시글 삭제할 때 화면 설정? --> 
+        
+                 UPDATE insurance
+                
+                 SET
+                       delete_yn = 'Y'
+                     , delete_time = NOW()
+                 WHERE
+                     idx = #{idx}                             
+        </update>
+        
+        <select id="selectInsuranceList" parameterType="InsuranceDTO" resultType="InsuranceDTO">
+          
+                 SELECT
+                      <include refid="InsuranceColumns" />
+                 FROM
+                      insurance
+                 WHERE
+                      delete_yn = 'N'
+                 ORDER BY
+                      renew_prod_yn ASC,
+                      idx DESC,
+                      insert_time DESC        
+        </select>
+        
+        <select id="selectInsuranceTotalCount" parameterType="InsuranceDTO" resultType="int">
+        
+                 SELECT
+                      COUNT(*)
+                 FROM
+                      insurance
+                 WHERE
+                      delete_yn = 'N'
+        </select>
+</mapper>
