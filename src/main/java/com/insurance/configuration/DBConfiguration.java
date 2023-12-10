@@ -25,7 +25,7 @@ public class DBConfiguration                                                    
 	private ApplicationContext applicationContext;                               // ApplicationContext :: 스프링 컨테이너 (Bean의 생명주기 등을 관리)
 	
 	@Bean                                                                        // @Bean :: 객체
-	@ConfigurationProperties(prefix = "spring.datasource.hikari")                // @ConfigurationProperties :: 접두사(prefix) 지정, 'spring.datasource.hikari'로 시작하는 설정을 메서드에 매핑
+	@ConfigurationProperties(prefix="spring.datasource.hikari")                  // @ConfigurationProperties :: 접두사(prefix) 지정, 'spring.datasource.hikari'로 시작하는 설정을 메서드에 매핑
 	public HikariConfig hikariConfig()                                           // HikariConfig :: Connection Pool 라이브러리
 	{
 		return new HikariConfig();
@@ -43,6 +43,7 @@ public class DBConfiguration                                                    
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		
 		factoryBean.setDataSource(dataSource());
+		factoryBean.getObject();
 		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/**/*Mapper.xml"));     // setMapperLocations  ::  XML Mapper에 인식하도록 하는 역할
 		factoryBean.setTypeAliasesPackage("com.insurance.domain");                                                // setTypeAliasesPackage  ::  클래스 패키지 경로 지정
 		factoryBean.setConfiguration(mybatisConfg());                                                             // mybatisConfg  ::  application.properties 에서 mybatis.configuration 으로 시작하는 모든 설정을 읽어 Bean 으로 등록
