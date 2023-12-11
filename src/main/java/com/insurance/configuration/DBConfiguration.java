@@ -43,7 +43,7 @@ public class DBConfiguration                                                    
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		
 		factoryBean.setDataSource(dataSource());
-		factoryBean.getObject();
+//		factoryBean.getObject();
 		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/**/*Mapper.xml"));     // setMapperLocations  ::  XML Mapper에 인식하도록 하는 역할
 		factoryBean.setTypeAliasesPackage("com.insurance.domain");                                                // setTypeAliasesPackage  ::  클래스 패키지 경로 지정
 		factoryBean.setConfiguration(mybatisConfg());                                                             // mybatisConfg  ::  application.properties 에서 mybatis.configuration 으로 시작하는 모든 설정을 읽어 Bean 으로 등록

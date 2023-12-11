@@ -3,8 +3,8 @@
 
 <mapper namespace="com.insurance.mapper.InsuranceMapper">
 
-        <sql id="InsuranceColumns">  <!-- 데이터베이스 것 -->
-        
+        <sql id="InsuranceColumns">                                     <!-- 데이터베이스 -->
+                                                                        <!-- MySQL에 적은 변수명과 동일하게 작성해야함 -->
                     idx
                   , ins_type 
                   , ins_co
@@ -28,25 +28,26 @@
         
                 INSERT INTO insurance
                 (
-                       <include refid = "InsuranceColumns" />  <!-- #붙은 애들은 자바 것 -->
-                ) VALUES (
+                       <include refid = "InsuranceColumns" />           <!-- #붙은 것은 Java -->
+                ) VALUES (                                              <!-- InsuranceDTO.java 클래세으 적은 변수명과 동일하게 작성 -->
                        #{idx}
-                     , #{ins_type}
-                     , #{ins_co}
-                     , #{contract_date}
-                     , #{contract_no}
+                     , #{insType}
+                     , #{insCo}
+                     , #{contractDate}
+                     , #{contractNo}
                      , #{contractor}
                      , #{insured}
-                     , #{prod_name}
-                     , #{payt_exp}
+                     , #{prodName}
+                     , #{paytExp}
                      , #{premium}
-                     , IFNULL(#{renew_prod_Yn}, 'N')
-                     , IFNULL(#{digi_sig_Yn}, 'N')
-                     , IFNULL(#{delete_Yn}, 'N')
-                     , #{memo_col}
+                     , IFNULL(#{renewProdYn}, 'N')
+                     , IFNULL(#{digiSigYn}, 'N')
+                     , IFNULL(#{deleteYn}, 'N')
+                     , #{memoCol}
                      , NOW()                     
                      , NULL
                      , NULL
+               	)
         </insert>
         
         <select id="selectInsuranceDetail" parameterType="long" resultType="InsuranceDTO">
@@ -61,24 +62,25 @@
                       idx = #{idx}        
         </select>
         
-        <update id="updateInsurance" parameterType="InsuranceDTO">    <!-- 게시글 작성할 때 화면 설정? -->
+        <update id="updateInsurance" parameterType="InsuranceDTO">    <!-- 게시글 작성할 때 화면 설정 -->
         
                 UPDATE insurance
                 
                 SET
                       update_time = NOW()
-                    , ins_type = #{ins_type}
-                    , ins_co = #{ins_co}
-                    , contract_date = #{contract_date}
-                    , contract_no = #{contract_no}
+                    , ins_type = #{insType}
+                    , ins_co = #{insCo}
+                    , contract_date = #{contractDate}
+                    , contract_no = #{contractNo}
                     , contractor = #{contractor}
                     , insured = #{insured}
-                    , prod_name = #{prod_name}
-                    , payt_exp = #{payt_exp}
+                    , prod_name = #{prodName}
+                    , payt_exp = #{paytExp}
                     , premium = #{premium}
-                    , renew_prod_yn = IFNULL(#{renew_prod_yn}, 'N')
-                    , digi_sig_yn = IFNULL(#{digi_sig_yn}, 'N')
-                    , memo_col = #{memo_col}
+                    , renew_prod_yn = IFNULL(#{renewProdYn}, 'N')
+                    , digi_sig_yn = IFNULL(#{digiSigYn}, 'N')
+                    , memo_col = #{memoCol}
+                
                  WHERE
                     idx = #{idx}                             
         </update>
