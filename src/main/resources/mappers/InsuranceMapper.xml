@@ -85,7 +85,7 @@
                     idx = #{idx}                             
         </update>
         
-        <update id="deleteInsurance" parameterType="long">    <!-- 게시글 삭제할 때 화면 설정? --> 
+        <update id="deleteInsurance" parameterType="long">    <!-- 게시글 삭제할 때 화면 설정 --> 
         
                  UPDATE insurance
                 
