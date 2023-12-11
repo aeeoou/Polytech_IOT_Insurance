@@ -26,6 +26,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'               // 교안 챕터6 15페이지 :: src/main/resources 디렉토리 static 폴더에 압축 해제된 static.zip 추가 후
+	                                                                                // build.gradle 의 dependencies 에 라이브러리 선언
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
