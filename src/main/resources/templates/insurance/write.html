@@ -3,4 +3,137 @@
 	<th:block layout:fragment="title">
 		<title> 타이틀란 </title>
 	</th:block>
+	
+	<!-- 수정하기 리스트 -->
+	
+	<th:block layout:fragment="content">
+		<div class="card-content">
+			<form class="form-horizontal" th:action="@{/insurance/register.do}" th:object="${insurance}" method="post" onsubmit="return registerInsurance(this)">
+				<!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
+				<input type="hidden" th:if="*{idx != null and idx > 0}" th:field="*{idx}" />
+				
+				<div class="form-group">
+					<label for="renewProdYn" class="col-sm-2 control-label"> 갱신형 상품 여부 </label>
+					<div class="col-sm-10" style="margin-top: 10px;">
+						<input type="checkbox" th:value="*{renewProdYn}" id="renewProdYn" name="renewProdYn" th:checked="*{#strings.equals( renewProdYn, 'Y' )}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="digiSigYn" class="col-sm-2 control-label"> 전자서명 여부 </label>
+					<div class="col-sm-10" style="margin-top: 10px;">
+						<input type="checkbox" th:value="*{digiSigYn}" id="digiSigYn" name="digiSigYn" th:checked="*{#strings.equals( digiSigYn, 'Y' )}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="insType" class="col-sm-2 control-label"> 보험종목 </label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{insType}" class="form-control" placeholder="보험종목을 입력해 주세요. (손보/생보/장기/화재/일반/자동차)" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="insCo" class="col-sm-2 control-label"> 보험회사 </label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{insCo}" class="form-control" placeholder="보험회사명을 입력해 주세요." />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="contractDate" class="col-sm-2 control-label"> 계약체결일 </label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{contractDate}" class="form-control" placeholder="계약체결 날짜를 입력해 주세요." />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="contractNo" class="col-sm-2 control-label"> 계약번호 & 증권번호 </label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{contractNo}" class="form-control" placeholder="계약번호(증권번호)를 입력해 주세요." />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="contractor" class="col-sm-2 control-label"> 계약자 </label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{contractor}" class="form-control" placeholder="계약자 이름을 입력해 주세요." />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="insured" class="col-sm-2 control-label"> 피보험자 </label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{insured}" class="form-control" placeholder="피보험자 이름을 입력해 주세요. (피보험자가 계약자와 같다면 '계피동일'을 입력해 주세요.)" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="prodName" class="col-sm-2 control-label"> 상품명 </label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{prodName}" class="form-control" placeholder="판매 상품명을 입력해 주세요." />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="paytExp" class="col-sm-2 control-label"> 납 & 만기 </label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{paytExp}" class="form-control" placeholder="납&만기를 입력해 주세요." />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="premium" class="col-sm-2 control-label"> 보험료 </label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{premium}" class="form-control" placeholder="보험료를 입력해 주세요." />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="memoCol" class="col-sm-2 control-label"> 메모란 </label>
+					<div class="col-sm-10">
+						<textarea th:field="*{memoCol}" class="form-control" placeholder="내용을 입력해 주세요."></textarea>						
+					</div>
+				</div>
+				
+				<div class="btn_wrap text-center">
+					<a th:href="@{/insurance/list.do}" class="btn btn-default waves-effect waves-light"> 뒤로가기 </a>
+					<button type="submit" class="btn btn-primary waves-effect waves-light"> 저장하기 </button>
+				</div>
+			</form>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="script">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			
+			function registerInsurance(form)
+			{
+				form.renewProdYn.value = form.renewProdYn.checked == false ? 'N' : 'Y';
+				form.digiSigYn.value = form.digiSigYn.checked == false ? 'N' : 'Y';
+				
+				var result = (
+					isValid(form.insType, "보험종목", null, null)
+				 && isValid(form.insCo, "보험회사", null, null)
+				 && isValid(form.contractDate, "계약체결일", null, null)
+				 && isValid(form.contractNo, "계약번호", null, null)
+				 && isValid(form.contractor, "계약자", null, null)
+				 && isValid(form.insured, "피보험자", null, null)
+				 && isValid(form.prodName, "상품명", null, null)
+				 && isValid(form.paytExp, "납&만기", null, null)
+				 && isValid(form.premium, "보험료", null, null)
+				 && isValid(form.memoCol, "메모란", null, null)	
+				);
+				
+				if ( result == false )
+				{
+					return false;
+				}
+			}
+			/*[- end of function -]*/
+			
+			/*]]>*/
+		</script>
+	</th:block>
 </html>
