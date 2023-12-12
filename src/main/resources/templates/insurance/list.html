@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="insurance/layout/basic">
+	<th:block layout:fragment="title">
+		<title>리스트 타이틀</title>
+	</th:block>
+	
+	<th:block layout:fragment="search">          <!-- layout:fragment="search" 게시글 리스트에서 특정 게시글을 검색할 수 있는 영역, 검색 기능을 구현하지 않았기 때문에 아직 아무런 작동을 하지 않음' -->
+		<form action="#" id="searchform-header" class="searchform js__toggle active pull-right">
+			<input type="search" placeholder="Search..." class="input-search">
+			<button class="mdi mdi-magnify button-search" type="submit">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</form>
+	</th:block>
+	
+	<th:block layout:fragment="content">          <!-- layout:fragment="content" 리스트 페이지의 실제 Content가 포함된 영역, 게시글 리스트는 보통 테이블 형태로 처리됨 -->                                         
+		<div class="table-responsive clearfix">   <!-- 메인페이지 영역 -->
+			<table class="table table-hover">     
+				<thead>
+					<tr>
+						<th>계약건수</th>
+						<th>보험종목</th>
+						<th>보험회사명</th>
+						<th>계약번호</th>
+						<th>계약자</th>
+						<th>상품명</th>
+						<th>계약체결일</th>
+					</tr>
+				</thead>
+				
+				<tbody>                                           <!-- th:each는 자바의 forEach와 유사한 기능 (여기서는 insuranceList를 순환해서 데이터를 출력) -->
+					<tr th:if="${not #lists.isEmpty( insuranceList )}" th:each="row : ${insuranceList}">
+						
+						<td scope="row" th:text="${#strings.equals( row.renewProdYn, 'Y' ) ? '공지' : row.idx}"></td>     <!-- 첫 번째 'td' #strings.equals 함수를 사용해서 공지 여부가 'Y'로 등록된 게시글이면 "공지"를 출력, 'N'으로 등록된 게시글이면 게시글 번호를 출력 (equals함수는 문자열을 비교할 때 사용함) -->
+						
+						<td class="text-left">                                                                           <!-- 두 번째 'td' 게시글 제목을 클릭하면 특정 게시글의 상세 페이지를 의미하는 "/insurance/view.do" URI를 호출 -->
+							<a th:href="@{/insurance/view.do( idx=${row.idx} )}" th:text="${row.insType}"></a>							
+						</td>
+						
+						<td th:text="${row.insCo}"></td>      <!-- 보험회사명 -->
+						<td th:text="${row.contractNo}"></td> <!-- 계약번호 -->
+						<td th:text="${row.contractor}"></td>                                    <!-- 세 번째 'td' 작성자(계약자)를 텍스트 형식으로 출력 -->
+						<td th:text="${row.prodName}"></td>   <!-- 상품명 -->			
+						<td th:text="${#temporals.format( row.insertTime, 'yyyy-MM-dd' )}"></td> <!-- 네 번째 'td' InsuranceDTO 클래스에서 시간 관련 인스턴스 변수는 temporals.format 함수를 통해 원하는 날짜 형태로 포맷 -->
+						<!-- <td th:text="${row.premium}"></td> 다섯 번째 'td' 특정 게시글의 조회 수를 텍스트 형식으로 출력 -->					 
+					    
+					</tr>
+					<tr th:unless="${not #lists.isEmpty( insuranceList )}">
+						<td colspan="10">조회된 결과가 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<div class="btn_wrap text-right">
+				<a th:href="@{/insurance/write.do}" class="btn btn-primary waves-effect waves-light">Write</a> <!-- Write버튼 "/insurance/write.do" URI를 호출해서 신규 글 작성 페이지로 이동 -->
+			</div>
+			
+			<th:block layout:fragment="paging">    <!-- 리스트에서 특정 페이지로 이동할 수 있는 페이징 영역. 검색 영역과 마찬가지로 페이징 영역을 구현하지 않았기 때문에 번호를 클릭해도 작동하지 않음 -->
+				<nav aria-label="Page navigation" class="text-center">
+					<ul class="pagination">
+						<li>
+							<a href="#" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<li><a href="#"> 1 </a></li>          <!-- 메인화면 하단 페이지 수 목록 -->
+						<li><a href="#"> 2 </a></li>
+						<li><a href="#"> 3 </a></li>
+						<li><a href="#"> 4 </a></li>
+						<li><a href="#"> 5 </a></li>
+						<li><a href="#"> 6 </a></li>
+						<li><a href="#"> 7 </a></li>
+						<li><a href="#"> 8 </a></li>
+						<li><a href="#"> 9 </a></li>
+						<li><a href="#"> 10 </a></li>
+						<li>
+							<a href="#" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</th:block>
+		</div>
+	</th:block>
+</html>
