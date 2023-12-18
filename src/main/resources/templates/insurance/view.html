@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<!-- 작성된 글 리스트를 눌렀을 때 뜨는 화면 view html -->
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.new.nz/thymeleaf/layout" layout:decorate="insurance/layout/basic">
+	<th:block layout:fragment="title">
+		<title> 작성된 게시글 </title>
+	</th:block>
+	
+	<th:block layout:fragment="content">                                     <!-- layout:fragment="content" :: 게시글 상세 페이지에서 폼 태그는 필요하지 않지만 화면 처리를 위해 사용 (write.html과 같이 th:object 속성을 통해 *{} 표현식으로 제목, 이름, 내용, 등록일, 조회 수를 텍스트 형식으로 출력 -->
+		<div class="card-content">
+			<form class="form-horizontal form-view" th:object="${insurance}">
+				
+				<div class="form-group">
+					<label for="renewProdYn" class="col-sm-2 control-label"> 갱신형 상품 여부 </label>
+					<div class="col-sm-10" style="margin-top: 10px;">
+						<input type="checkbox" th:value="*{renewProdYn}" id="renewProdYn" name="renewProdYn" th:checked="*{#strings.equals( renewProdYn, 'Y' )}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="digiSigYn" class="col-sm-2 control-label"> 전자서명 여부 </label>
+					<div class="col-sm-10" style="margin-top: 10px;">
+						<input type="checkbox" th:value="*{digiSigYn}" id="digiSigYn" name="digiSigYn" th:checked="*{#strings.equals( digiSigYn, 'Y' )}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="inp-type-2" class="col-sm-2 control-label"> 보험회사 </label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{insCo}"></p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="inp-type-1" class="col-sm-2 control-label"> 보험종목 </label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{insType}"></p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label"> 계약체결일 </label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{#temporals.format( insertTime, 'yyyy-MM-dd' )}"></p>
+					</div>
+				</div>									
+								
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label"> 계약번호 & 증권번호 </label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{contractNo}"></p>
+					</div>
+				</div>				
+				
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label"> 계약자 </label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{contractor}"></p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label"> 피보험자 </label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{insured}"></p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label"> 상품명 </label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{prodName}"></p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label"> 납 & 만기 </label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{paytExp}"></p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label"> 보험료 </label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{premium}"></p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="inp-type-5" class="col-sm-2 control-label"> 메모란 </label>
+					<div class="col-sm-10">
+						<p class="form-control" th:text="*{memoCol}"></p>
+					</div>
+				</div>
+				
+			</form>
+			
+			<div class="btn_wrap text-center">
+				<a th:href="@{/insurance/list.do}" class="btn btn-default waves-effect waves-light"> 뒤로가기 </a>
+				<a th:href="@{/insurance/write.do( idx=${insurance.idx} )}" class="btn btn-primary waves-effect waves-light"> 수정하기 </a>
+				<button type="button" class="btn btn-danger waves-effect waves-light" th:onclick="deleteInsurance([[ ${insurance.idx} ]])"> 삭제하기 </button>
+			</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="add-content">
+		<div class="box-content">
+			<div class="card-content">
+				<div class="clearfix">
+					<h4 class="box-title pull-left"> Comment </h4>
+				</div>
+				
+				<form class="form-horizontal form-view">
+					<div class="input-group margin-bottom-20">
+						<input type="email" class="form-control" placeholder="">
+						<div class="input-group-btn"><button type="button" class="btn waves-effect waves-light"><i class="fa fa-commenting" aria-hidden="true"></i></button></div>						
+					</div>
+					<ul class="notice-list">
+						<li>
+							<span class="name"> 세상에 수많은 아름다운  </span>
+							<span class="desc"> 하느님이 보우하사 우리나라 만세 </span>
+							<span class="time"> 2023-12-12 </span>
+							<button type="button" class="btn btn-xs btn-circle"><i class="fa fa-close" aria-hidden="true"></i></button>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</th:block>
+	
+	<!-- 게시글 삭제 처리 -->
+	<th:block layout:fragment="script">                                         
+		<script th:inline="javascript">                                                
+			/*<![CDATA[*/                                                              
+			function deleteInsurance(idx, queryString)                                 
+			{
+				if (confirm(idx + "번 게시글을 삭제할까요?"))                               
+				{
+					var uri = /*[[ @{/insurance/delete.do} ]]*/ null;                  
+					var html = "";                                                     
+					
+					html += '<form name="dataForm" action="'+uri+'" method="post">';
+					html += '<input type="hidden" name="idx" value="'+idx+'" />';
+					
+					queryString = new URLSearchParams(queryString);
+					queryString.forEach(function(value, key)
+					{
+						if (isEmpty(value) == false)
+						{
+							html += '<input type="hidden" name="' + key + '" value="' + value + '" />';
+						}
+					});
+					html += '</form>';
+					$("body").append(html);                                            
+					document.dataForm.submit();                                        
+				}
+			}
+			/*]]>*/
+		</script>
+	</th:block>
+</html>

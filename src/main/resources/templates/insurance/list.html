@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="insurance/layout/basic">
 	<th:block layout:fragment="title">
-		<title>리스트 타이틀</title>
+		<title> 메인화면 리스트 </title>
 	</th:block>
+	
+	<!-- 메인화면의 리스트 html -->
 	
 	<th:block layout:fragment="search">          <!-- layout:fragment="search" 게시글 리스트에서 특정 게시글을 검색할 수 있는 영역, 검색 기능을 구현하지 않았기 때문에 아직 아무런 작동을 하지 않음' -->
 		<form action="#" id="searchform-header" class="searchform js__toggle active pull-right">
@@ -18,13 +20,13 @@
 			<table class="table table-hover">     
 				<thead>
 					<tr>
-						<th>계약건수</th>
-						<th>보험종목</th>
-						<th>보험회사명</th>
-						<th>계약번호</th>
-						<th>계약자</th>
-						<th>상품명</th>
-						<th>계약체결일</th>
+						<th> 계약건수  </th>
+						<th> 보험회사명 </th>
+						<th> 보험종목 </th>
+						<th> 계약번호 </th>
+						<th> 계약자 </th>
+						<th> 상품명 </th>
+						<th> 계약체결일  </th>
 					</tr>
 				</thead>
 				
@@ -34,10 +36,10 @@
 						<td scope="row" th:text="${#strings.equals( row.renewProdYn, 'Y' ) ? '공지' : row.idx}"></td>     <!-- 첫 번째 'td' #strings.equals 함수를 사용해서 공지 여부가 'Y'로 등록된 게시글이면 "공지"를 출력, 'N'으로 등록된 게시글이면 게시글 번호를 출력 (equals함수는 문자열을 비교할 때 사용함) -->
 						
 						<td class="text-left">                                                                           <!-- 두 번째 'td' 게시글 제목을 클릭하면 특정 게시글의 상세 페이지를 의미하는 "/insurance/view.do" URI를 호출 -->
-							<a th:href="@{/insurance/view.do( idx=${row.idx} )}" th:text="${row.insType}"></a>							
+							<a th:href="@{/insurance/view.do( idx=${row.idx} )}" th:text="${row.insCo}"></a>							
 						</td>
 						
-						<td th:text="${row.insCo}"></td>      <!-- 보험회사명 -->
+						<td th:text="${row.insType}"></td>      <!-- 보험회사명 -->
 						<td th:text="${row.contractNo}"></td> <!-- 계약번호 -->
 						<td th:text="${row.contractor}"></td>                                    <!-- 세 번째 'td' 작성자(계약자)를 텍스트 형식으로 출력 -->
 						<td th:text="${row.prodName}"></td>   <!-- 상품명 -->			

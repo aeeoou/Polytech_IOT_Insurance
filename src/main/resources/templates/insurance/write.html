@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="insurance/layout/basic">
 	<th:block layout:fragment="title">
-		<title> 타이틀란 </title>
+		<title> 게시글 수정하기 </title>
 	</th:block>
 	
-	<!-- 글쓰기? 리스트 -->
+	<!-- 작성된 게시글의 '수정하기' 눌렀을 때 페이지 html -->
 	
 	<th:block layout:fragment="content">
 		<div class="card-content">
@@ -27,17 +27,33 @@
 				</div>
 				
 				<div class="form-group">
-					<label for="insType" class="col-sm-2 control-label"> 보험종목 </label>
-					<div class="col-sm-10">
-						<input type="text" th:field="*{insType}" class="form-control" placeholder="보험종목을 입력해 주세요. (손보/생보/장기/화재/일반/자동차)" />
-					</div>
+					<label for="insCo" class="col-sm-2 control-label"> 보험회사 </label>
+					<!-- <div class="col-sm-10">
+						<input type="text" th:field="*{insCo}" class="form-control" placeholder="보험회사명을 입력해 주세요." />
+					</div> -->
+					<select th:field="*{insCo}" name="insCo" size="1"> 
+						<option value="현대해상"> 현대해상 </option>
+						<option value="메리츠화재"> 메리츠화재 </option>
+						<option value="우체국"> 우체국 </option>
+						<option value="라이나생명"> 라이나생명 </option>
+						<option value="신한생명"> 신한생명 </option>
+						<option value="카카오"> 카카오 </option>
+					</select> 
 				</div>
 				
 				<div class="form-group">
-					<label for="insCo" class="col-sm-2 control-label"> 보험회사 </label>
-					<div class="col-sm-10">
-						<input type="text" th:field="*{insCo}" class="form-control" placeholder="보험회사명을 입력해 주세요." />
-					</div>
+					<label for="insType" class="col-sm-2 control-label"> 보험종목 </label>
+					<!-- <div class="col-sm-10">
+						<input type="text" th:field="*{insType}" class="form-control" placeholder="보험종목을 입력해 주세요. (손보/생보/장기/화재/일반/자동차)" />
+					</div> -->
+					<select th:field="*{insType}" name="insType" size="1"> 
+						<option value="손보"> 손보 </option>
+						<option value="생보"> 생보 </option>
+						<option value="장기"> 장기 </option>
+						<option value="화재"> 화재 </option>
+						<option value="일반"> 일반 </option>
+						<option value="자동차"> 자동차 </option>
+					</select>                                <!-- 나중에 기능 추가할 예정 -->
 				</div>
 				
 				<div class="form-group">
@@ -114,8 +130,8 @@
 				form.digiSigYn.value = form.digiSigYn.checked == false ? 'N' : 'Y';
 				
 				var result = (
-					isValid(form.insType, "보험종목", null, null)
-				 && isValid(form.insCo, "보험회사", null, null)
+					isValid(form.insCo, "보험회사", null, null)
+				 && isValid(form.insType, "보험종목", null, null)
 				 && isValid(form.contractDate, "계약체결일", null, null)
 				 && isValid(form.contractNo, "계약번호", null, null)
 				 && isValid(form.contractor, "계약자", null, null)

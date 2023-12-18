@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!-- XML Mapper :: 마이바티스에서 SQL쿼리문이 정의되어 있는 파일 -->
+
 <mapper namespace="com.insurance.mapper.InsuranceMapper">
 
         <sql id="InsuranceColumns">                                     <!-- 데이터베이스 -->
@@ -85,7 +87,7 @@
                     idx = #{idx}                             
         </update>
         
-        <update id="deleteInsurance" parameterType="long">    <!-- 게시글 삭제할 때 화면 설정 --> 
+        <update id="deleteInsurance" parameterType="long">             <!-- 게시글 삭제할 때 화면 설정 --> 
         
                  UPDATE insurance
                 
