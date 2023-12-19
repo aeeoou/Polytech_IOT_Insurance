@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.insurance.domain.InsuranceDTO;
 import com.insurance.mapper.InsuranceMapper;
+import com.insurance.paging.Criteria;
 
 @Service
 public class InsuranceServiceImpl implements InsuranceService
@@ -50,15 +51,15 @@ public class InsuranceServiceImpl implements InsuranceService
 	}
 	
 	@Override
-	public List<InsuranceDTO> getInsuranceList()
+	public List<InsuranceDTO> getInsuranceList(Criteria criteria)
 	{
 		List<InsuranceDTO> insuranceList = Collections.emptyList();
 		
-		int insuranceTotalCount = insuranceMapper.selectInsuranceTotalCount();
+		int insuranceTotalCount = insuranceMapper.selectInsuranceTotalCount(criteria);
 		
 		if (insuranceTotalCount > 0)
 		{
-			insuranceList = insuranceMapper.selectInsuranceList();
+			insuranceList = insuranceMapper.selectInsuranceList(criteria);
 		}
 		return insuranceList;
 	}	

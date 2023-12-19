@@ -23,5 +23,4 @@ public class UiUtils
 		
 		return "utils/message-redirect";
 	}
-
 }

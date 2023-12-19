@@ -7,11 +7,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.insurance.constant.Method;
 import com.insurance.domain.InsuranceDTO;
+import com.insurance.paging.Criteria;
 import com.insurance.service.InsuranceService;
 import com.insurance.util.UiUtils;
 
@@ -61,9 +63,9 @@ public class InsuranceController extends UiUtils
 	
 	// 게시글 목록 처리 - InsuranceController
 	@GetMapping(value = "/insurance/list.do")              // @GetMapping :: GET방식의 HTTP요청 메서드
-	public String openInsuranceList(Model model)           // Model :: 컨트롤러에서 화면(view)으로 데이터를 전달할 때 사용되는 인터페이스
+	public String openInsuranceList(@ModelAttribute("criteria") Criteria criteria , Model model)           // Model :: 컨트롤러에서 화면(view)으로 데이터를 전달할 때 사용되는 인터페이스
 	{
-		List<InsuranceDTO> insuranceList = insuranceService.getInsuranceList(); // insuranceList :: InsuranceService에서 호출한 getInsuranceList 메서드의 실행 결과물을 저장
+		List<InsuranceDTO> insuranceList = insuranceService.getInsuranceList(criteria); // insuranceList :: InsuranceService에서 호출한 getInsuranceList 메서드의 실행 결과물을 저장
 		model.addAttribute("insuranceList", insuranceList);
 		
 		return "insurance/list";       // return문 :: 컨트롤러의 리턴 문에 지정된 경로의 HTML이 화면에 출력
@@ -107,12 +109,15 @@ public class InsuranceController extends UiUtils
 			{
 				return showMessageWithRedirect("게시글 삭제에 실패하였습니다.", "/insurance/list.do", Method.GET, null, model);
 			}
+		
 		} catch (DataAccessException e) {
 			return showMessageWithRedirect("데이터베이스 처리 과정에 문제가 발생하였습니다.", "/insurance/list.do", Method.GET, null, model);
+		
 		} catch (Exception e) {
-			return show
+			return showMessageWithRedirect("시스템에 문제가 발생하였습니다.", "/insurance/list.do", Method.GET, null, model);
 		}
-		return "redirect:/insurance/list.do";
+		
+		return showMessageWithRedirect("게시글 삭제가 완료되었습니다.", "/insurance/list.do", Method.GET, null, model);
 	}
 }
 
