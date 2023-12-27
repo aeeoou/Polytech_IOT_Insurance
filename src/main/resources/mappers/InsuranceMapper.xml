@@ -106,34 +106,22 @@
                       insurance
                  WHERE
                       delete_yn = 'N'
+                 <include refid="CommonMapper.search" />     
                  ORDER BY
                       renew_prod_yn ASC,
                       idx DESC,
-                      insert_time DESC        
-        </select>
-        
-        <select id="selectInsuranceTotalCount" parameterType="Criteria" resultType="InsuranceDTO">
-        
-                 SELECT
-                      <include refid="insuranceColumns" />
-                 FROM
-                      insurance
-                 WHERE
-                      delete_yn = 'N'
-                 ORDER BY
-                      notice_yn ASC,
-                      idx DESC,
                       insert_time DESC
-                 LIMIT
-                      #{startPage}, #{recordsPerPage}
+                 <include refid="CommonMapper.paging" />     
         </select>
         
-        <select id="selectInsuranceTotalCount" parameterType="Criteria" resultType="int">
+        <select id="selectInsuranceTotalCount" parameterType="InsuranceDTO" resultType="int">
+        
                  SELECT
                       COUNT(*)
                  FROM
                       insurance
                  WHERE
-                      delete_yn = 'N'
+                      delete_yn = 'N'    
+                 <include refid="CommonMapper.search" />              
         </select>
 </mapper>

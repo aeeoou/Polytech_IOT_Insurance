@@ -88,7 +88,7 @@ class MapperTests
 				String insuranceJson = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(insurance);
 				
 				System.out.println("========================================");
-				System.out.println("insuranceJson, 게시글 수정 기능 메서드 테스트입니다. 교안 챕터5 8페이지");
+				System.out.println(insuranceJson);
 				System.out.println("========================================");
 				
 			} catch (JsonProcessingException e) {
@@ -110,7 +110,7 @@ class MapperTests
 				String insuranceJson = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(insurance);
 				
 				System.out.println("========================================");
-				System.out.println("insuranceJson, 게시글 삭제 기능 메서드 테스트입니다. 교안 챕터5 10페이지");
+				System.out.println(insuranceJson);
 				System.out.println("========================================");
 			
 			} catch (JsonProcessingException e) {

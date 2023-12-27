@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.insurance.constant.Method;
 import com.insurance.domain.InsuranceDTO;
-import com.insurance.paging.Criteria;
 import com.insurance.service.InsuranceService;
 import com.insurance.util.UiUtils;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class InsuranceController extends UiUtils
@@ -62,13 +63,15 @@ public class InsuranceController extends UiUtils
 	}
 	
 	// 게시글 목록 처리 - InsuranceController
-	@GetMapping(value = "/insurance/list.do")              // @GetMapping :: GET방식의 HTTP요청 메서드
-	public String openInsuranceList(@ModelAttribute("criteria") Criteria criteria , Model model)           // Model :: 컨트롤러에서 화면(view)으로 데이터를 전달할 때 사용되는 인터페이스
+	@GetMapping(value = "/insurance/list.do")                                                              // @GetMapping :: GET방식의 HTTP요청 메서드
+	public String openInsuranceList(@ModelAttribute("params") InsuranceDTO params, HttpServletRequest request, Model model)            // Model :: 컨트롤러에서 화면(view)으로 데이터를 전달할 때 사용되는 인터페이스
 	{
-		List<InsuranceDTO> insuranceList = insuranceService.getInsuranceList(criteria); // insuranceList :: InsuranceService에서 호출한 getInsuranceList 메서드의 실행 결과물을 저장
-		model.addAttribute("insuranceList", insuranceList);
+		List<InsuranceDTO> insuranceList = insuranceService.getInsuranceList(params);                      // insuranceList :: InsuranceService에서 호출한 getInsuranceList 메서드의 실행 결과물을 저장
+		model.addAttribute("insuranceList", insuranceList); 
+		model.addAttribute("requestURI", request.getRequestURI());
+		System.out.println(request.getRequestURI() + "ㅎㅇㅎㅇ");
 		
-		return "insurance/list";       // return문 :: 컨트롤러의 리턴 문에 지정된 경로의 HTML이 화면에 출력
+		return "insurance/list";                                                                           // return문 :: 컨트롤러의 리턴 문에 지정된 경로의 HTML이 화면에 출력
 	}
 	
 	// 게시글 조회 처리 - InsuranceController
