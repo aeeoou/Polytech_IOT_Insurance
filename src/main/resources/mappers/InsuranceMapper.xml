@@ -122,6 +122,6 @@
                       insurance
                  WHERE
                       delete_yn = 'N'    
-                 <include refid="CommonMapper.search" />              
+                 <include refid="CommonMapper.search" />     
         </select>
 </mapper>

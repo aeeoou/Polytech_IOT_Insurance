@@ -12,22 +12,19 @@
 			
 			<!-- 첫 번째 li :: 이전 페이지가 존재하면 게시글 리스트에서 1페이지로 이동 -->
 			<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${requestURI} ]], [[ ${params.makeQueryString(1)}  ]])">
-				<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
-				</a>
+				<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
 			</li>
 			
 			<!-- 두 번째 li :: 이전 페이지가 존재하면 게시글 리스트에서 첫 페이지 번호 -1 페이지로 이동 -->
 			<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${requestURI} ]], [[ ${params.makeQueryString(info.firstPage -1)} ]])">
-				<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span>
-				</a>
+				<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
 			</li>
 			
 			<!-- 세 번째 li :: ${#numbers.sequence(from, to, step)} 함수는 from에서 to까지의 정수의 시퀀스를 생성하는 함수 (세 번째 인자인 step은 지정하지 않으면 1로 적용) -->
 			<!-- from에는 첫 페이지 번호, to에는 마지막 페이지 번호를 인자로 전달 (pageSize만큼 반복해서 페이지 번호를 화면에 출력) -->
 			<!-- th:class는 페이지 번호와 현재 페이지 번호가 동일하면 active 클래스를 적용 -->
 			<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == params.currentPageNo} ? 'active'">
-				<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${requestURI} ]], [[ ${params.makeQueryString(pageNo)} ]])">		
-				</a>
+				<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${requestURI} ]], [[ ${params.makeQueryString(pageNo)} ]])"></a>
 			</li>
 			
 			<!-- 네 번째 li :: 마지막 페이지 번호 +1 페이지로 이동 -->
@@ -75,14 +72,14 @@
 							</div>
 							
 							<div class="form-group">
-								<label for="contain"> 키워드 </label>
+								<label for="contain"> 검색어 </label>
 								<input type="text" name="searchKeyword" class="form-control" th:value="${params.searchKeyword}" />
 							</div>
 							<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>							
 						</form>
 					</div>
 				</div>
-				<button type="button" class="btn btn-primary" onclick="searchInsurance(null)"><span class="glyphicon-search" aria-hidden="true"></span></button>
+				<button type="button" class="btn btn-primary" onclick="searchInsurance(null)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 			</div>
 		</div>
 	</div>
