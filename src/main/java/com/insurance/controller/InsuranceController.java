@@ -52,6 +52,8 @@ public class InsuranceController extends UiUtils
 		{
 			boolean isRegistered = insuranceService.registerInsurance(params);
 			
+			//System.out.println("아아아아");
+			
 			if (isRegistered == false)
 			{
 				return showMessageWithRedirect("게시글 등록에 실패하였습니다.", "/insurance/list.do", Method.GET, pagingParams, model);				                       
@@ -70,8 +72,8 @@ public class InsuranceController extends UiUtils
 	public String openInsuranceList(@ModelAttribute("params") InsuranceDTO params, HttpServletRequest request, Model model)            // Model :: 컨트롤러에서 화면(view)으로 데이터를 전달할 때 사용되는 인터페이스
 	{
 		List<InsuranceDTO> insuranceList = insuranceService.getInsuranceList(params);                      // insuranceList :: InsuranceService에서 호출한 getInsuranceList 메서드의 실행 결과물을 저장
-		model.addAttribute("insuranceList", insuranceList); 
 		model.addAttribute("requestURI", request.getRequestURI());
+		model.addAttribute("insuranceList", insuranceList); 		
 		
 		return "insurance/list";                                                                           // return문 :: 컨트롤러의 리턴 문에 지정된 경로의 HTML이 화면에 출력
 	}
@@ -103,7 +105,7 @@ public class InsuranceController extends UiUtils
 		if (idx == null)
 		{
 			return showMessageWithRedirect("올바르지 않은 접근입니다.", "/insurance/list.do", Method.GET, null, model);
-		}
+		}                                                                                                                            
 	
 		Map<String, Object> pagingParams = getPagingParams(params);
 		

@@ -47,8 +47,8 @@
 						<input type="text" th:field="*{insType}" class="form-control" placeholder="보험종목을 입력해 주세요. (손보/생보/장기/화재/일반/자동차)" />
 					</div> -->
 					<select th:field="*{insType}" name="insType" size="1"> 
-						<option value="손보"> 손보 </option>
-						<option value="생보"> 생보 </option>
+						<option value="손보"> 손해보험 </option>
+						<option value="생보"> 생명보험 </option>
 						<option value="장기"> 장기 </option>
 						<option value="화재"> 화재 </option>
 						<option value="일반"> 일반 </option>
@@ -163,10 +163,7 @@
 						}
 					});
 				}			
-			}			
-			/*[- end of function -]*/
-			
-			/*]]>*/
+			}				
 		</script>
 	</th:block>
 </html>
