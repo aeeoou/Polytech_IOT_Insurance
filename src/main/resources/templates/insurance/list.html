@@ -28,7 +28,7 @@
 				<tbody>                                           <!-- th:each는 자바의 forEach와 유사한 기능 (여기서는 insuranceList를 순환해서 데이터를 출력) -->
 					<tr th:if="${not #lists.isEmpty( insuranceList )}" th:each="row : ${insuranceList}">
 						
-						<td scope="row" th:text="${#strings.equals( row.renewProdYn, 'Y' ) ? '공지' : row.idx}"></td>     <!-- 첫 번째 'td' #strings.equals 함수를 사용해서 공지 여부가 'Y'로 등록된 게시글이면 "공지"를 출력, 'N'으로 등록된 게시글이면 게시글 번호를 출력 (equals함수는 문자열을 비교할 때 사용함) -->
+						<td scope="row" th:text="${row.idx}"></td>     <!-- 첫 번째 'td' #strings.equals 함수를 사용해서 공지 여부가 'Y'로 등록된 게시글이면 "공지"를 출력, 'N'으로 등록된 게시글이면 게시글 번호를 출력 (equals함수는 문자열을 비교할 때 사용함) -->
 						
 						<td class="text-left">                                                                           <!-- 두 번째 'td' 게시글 제목을 클릭하면 특정 게시글의 상세 페이지를 의미하는 "/insurance/view.do" URI를 호출 -->
 							<a th:href="|@{/insurance/view.do}${params.makeQueryString(params.currentPageNo)}&idx=${row.idx}|" th:text="${row.insType}"></a>							

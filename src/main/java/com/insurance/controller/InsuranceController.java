@@ -43,13 +43,14 @@ public class InsuranceController extends UiUtils
 		return "insurance/write";
 	}
 	
-	@PostMapping(value = "/insurance/register.do")                           // 작성한 글을 저장하게 해주는 컨트롤러?
+	@PostMapping(value = "/insurance/register.do")                        	// 작성한 글을 저장하게 해주는 컨트롤러?
 	public String registerInsurance(@ModelAttribute("params") final InsuranceDTO params, Model model)
 	{
 		Map<String, Object> pagingParams = getPagingParams(params);
 		
 		try
 		{
+			System.out.println(params);
 			boolean isRegistered = insuranceService.registerInsurance(params);
 			
 			//System.out.println("아아아아");

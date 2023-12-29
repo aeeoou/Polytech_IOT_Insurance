@@ -44,7 +44,7 @@
                      , #{premium}
                      , IFNULL(#{renewProdYn}, 'N')
                      , IFNULL(#{digiSigYn}, 'N')
-                     , IFNULL(#{deleteYn}, 'N')
+                     , 'N'
                      , #{memoCol}
                      , NOW()                     
                      , NULL
@@ -107,8 +107,7 @@
                  WHERE
                       delete_yn = 'N'
                  <include refid="CommonMapper.search" />     
-                 ORDER BY
-                      renew_prod_yn ASC,
+                 ORDER BY       <!-- 순서 -->                      
                       idx DESC,
                       insert_time DESC
                  <include refid="CommonMapper.paging" />     
@@ -122,6 +121,6 @@
                       insurance
                  WHERE
                       delete_yn = 'N'    
-                 <include refid="CommonMapper.search" />     
+                 <include refid="CommonMapper.search" /> 
         </select>
 </mapper>

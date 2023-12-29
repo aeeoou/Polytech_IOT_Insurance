@@ -146,11 +146,11 @@ class MapperTests
 	@Test
 	public void testSelectList()    // testOfUpdate 게시글 목록 조회 기능 메서드 작성
 	{
-		int insuranceTotalCount = insuranceMapper.selectInsuranceTotalCount();
+		int insuranceTotalCount = insuranceMapper.selectInsuranceTotalCount(null);
 		
 		if (insuranceTotalCount > 0)
 		{
-			List<InsuranceDTO> insuranceList = insuranceMapper.selectInsuranceList();
+			List<InsuranceDTO> insuranceList = insuranceMapper.selectInsuranceList(null);
 			
 			if (CollectionUtils.isEmpty(insuranceList) == false)
 			{

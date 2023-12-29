@@ -126,6 +126,7 @@
 			
 			function registerInsurance(form)
 			{
+
 				form.renewProdYn.value = form.renewProdYn.checked == false ? 'N' : 'Y';
 				form.digiSigYn.value = form.digiSigYn.checked == false ? 'N' : 'Y';
 				
@@ -151,7 +152,7 @@
 				
 				if (isEmpty(idx) == false)
 				{
-					var queryString = /*[[ &{params.makeQueryString(params.currentPageNo)} ]]*/ null;
+					var queryString = /*[[ ${params.makeQueryString(params.currentPageNo)} ]]*/ null;
 					
 					/*[- 쿼리 스트링을 오브젝트 형태로 변환 -]*/
 					queryString = new URLSearchParams(queryString);
@@ -163,7 +164,9 @@
 						}
 					});
 				}			
-			}				
+			}
+			/*]]>*/
+					
 		</script>
 	</th:block>
 </html>
