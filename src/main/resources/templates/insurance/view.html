@@ -105,6 +105,7 @@
 		</div>
 	</th:block>
 	
+	<!-- 댓글 영역 -->
 	<th:block layout:fragment="add-content">
 		<div class="box-content">
 			<div class="card-content">
@@ -114,8 +115,12 @@
 				
 				<form class="form-horizontal form-view">
 					<div class="input-group margin-bottom-20">
-						<input type="email" class="form-control" placeholder="">
-						<div class="input-group-btn"><button type="button" class="btn waves-effect waves-light"><i class="fa fa-commenting" aria-hidden="true"></i></button></div>						
+						<input type="text" id="content" class="form-control" />
+						<div class="input-group-btn">
+							<button type="button" class="btn waves-effect waves-light" th:onclick="insertComment([[ ${insurance.idx} ]])">								
+							<i class="fa fa-commenting" aria-hidden="true"></i>
+							</button>
+						</div>						
 					</div>
 					<ul class="notice-list"></ul>
 				</form>
@@ -159,6 +164,57 @@
 				printCommentList();
 			});
 			
+			function insertComment(insuranceIdx)
+			{
+				// content :: 댓글입력창. 비어있는 상태에서 등록 버튼을 클릭하면 setAttribute 함수를 사용해서 해당 <input> 태그에 placeholder 속성 지정
+				var content = document.getElementById("content");
+				
+				if (isEmpty(content.value) == true)
+				{
+					content.setAttribute("placeholder", "댓글을 입력해 주세요.");
+					content.focus();
+					return false;
+				}
+				
+				// uri :: CommentController 의 registerComment 메서드와 매핑된 "/comments" URI
+				var uri = /*[[ @{/comments} ]]*/ null;
+				// headers ::
+				// Content-Type :: application/json으로 설정
+				// X-HTTP-Method-Override :: REST 방식의 HTTP 요청 메서드 중 PUT, PATCH, DELETE 방식은 브라우저에 따라 지원하지 않는 경우가 있으므로 브라우저에서는 POST 방식으로 데이터를 전송하고, 해당 속성을 헤더에 지정해서 REST 방식의 HTTP 요청 메서드 전송
+				var headers = {"Content-type": "application/json", "X-HTTP-Method-Override": "POST"};
+				// params :: insertComment 의 파라미터로 전달받은 게시글 번호, content에 입력한 댓글 내용, 임의로 지정한 댓글 작성자를 해당 변수에 JSON으로 저장
+				var params = {"insuranceIdx" : insuranceIdx, "content": content.value, "writer": "관리자"};
+				$.ajax({
+					// url :: 호출할 URI 지정
+					url: uri,
+					// type :: HTTP 요청 메서드 지정
+					type: "POST",
+					// headers :: HTTP 요청 헤더 지정
+					headers: headers,
+					// dataType :: 서버로부터 응답받을 데이터의 타입을 지정 (text, html, xml, json, script 등)
+					dataType: "json",
+					// data :: 서버에 전송할 데이터 지정. JSON.stringify 함수를 사용해서 JSON 객체를 JSON 문자열로 변환
+					data: JSON.stringify(params),
+					// success :: ajax 요청에 성공했을 때 실행되는 콜백 함수. 댓글이 정상적으로 등록되면, 새 댓글을 포함한 댓글을 출력하는 printCommentList 함수를 실행
+					success: function(response)
+					{
+						if (response.result == false)
+						{
+							alert("댓글 등록에 실패하였습니다.");
+							return false;
+						}
+						printCommentList();
+						content.value = "";
+					},
+					// error :: ajax 요청에 실패했을 때 실행되는 콜백 함수
+					error: function(xhr, status, error)
+					{
+						alert("에러가 발생하였습니다.");
+						return false;
+					}
+				});
+			}
+			
 			function printCommentList()
 			{
 				var uri = /*[[ @{/comments/} + ${insurance.idx} ]]*/ null;                    // CommentController 의 getCommentList  메서드의 매핑 URI를 해당 변수에 지정
@@ -178,7 +234,8 @@
                                 </li>
                             `;					
 					    });
-					    $(".notice-list").html(commentsHtml);                                 // commentsHtml에 담긴 댓글 리스트 (<li> 태그)를 notice-list 클래스가 지정된 <ul> 태그에 렌더링
+					    // commentsHtml에 담긴 댓글 리스트 (<li> 태그)를 notice-list 클래스가 지정된 <ul> 태그에 렌더링
+					    $(".notice-list").html(commentsHtml);
 				     }
 			     }, "json");
 			}
