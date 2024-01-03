@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,9 +33,35 @@ public class CommentController
 	 // 서버(컨트롤러)는 JSON 문자열을 파라미터로 전달받는다.
 	 // @RequestBody는 전달받은 JSON 문자열을 객체로 변환한다.
 	 // 객체로 변환된 JSON은 CommentDTO 클래스의 객체인 params에 매핑(바인딩)된다.
+	
+	// @DeleteMapping :: HTTP 요청 메서드 중 DELETE를 의미 (실제로 댓글을 삭제하지 않지만, URI의 구분을 위해 @DeleteMapping을 선언)
+	@DeleteMapping(value = "/comments/{idx}")
+	// @PathVariable :: REST 방식에서 리소스를 표현, @PathVariable은 URI에 파라미터로 전달받을 변수를 지정 ("/comments/{idx}" URI의 {idx}는 댓글 번호(PK)를 의미하며, @PathVariable의 idx와 매핑(바인딩))
+	public JsonObject deleteComment(@PathVariable("idx") final Long idx)
+	{
+		// 1. JSON 객체 생성
+		JsonObject jsonObj = new JsonObject();
+		
+		try
+		{
+			// 2. CommentService 의 deleteComment 메서드의 실행 결과를 JSON 객체에 저장
+			boolean isDeleted = commentService.deleteComment(idx);
+			jsonObj.addProperty("result", isDeleted);
+		
+		// 각 catch 문에 해당되는 예외가 발생하면 예외 메시지를 JSON 객체에 저장
+		} catch (DataAccessException e) {
+			jsonObj.addProperty("message", "데이터베이스 처리 과정에 문제가 발생하였습니다.");
+			
+		} catch (Exception e) {
+			jsonObj.addProperty("message", "시스템에 문제가 발생하였습니다.");
+		}
+		// JSON 객체를 리턴
+		return jsonObj;
+	}
+	
 	public JsonObject registerComment(@PathVariable(value = "idx", required = false) Long idx, @RequestBody final CommentDTO params)
 	{                                                                                                                                   
-		JsonObject jsonObj = new JsonObject()
+		JsonObject jsonObj = new JsonObject();
 		
 		try
 		{

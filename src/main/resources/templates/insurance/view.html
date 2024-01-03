@@ -215,6 +215,54 @@
 				});
 			}
 			
+			function openModal(idx, writer, content)
+			{
+				$("#commentModal").modal("toggle");
+				
+				document.getElementById("modalWriter").value = writer;
+				document.getElementById("modalContent").value = content;
+				
+				document.getElementById("btnCommentUpdate").setAttribute("onclick", "updateComment("+ idx + ")");
+				document.getElementById("btnCommentDelete").setArrribute("onclikc", "deleteComment("+ idx + ")");
+			}
+			
+			function deleteComment(idx)
+			{
+				// 1. Confirm(선택) 함수를 이용해서 다시 한번 댓글의 삭제 여부 확인
+				if (!confirm('댓글을 삭제하겠습니까?'))
+				{
+					return false;
+				}
+				
+				// 2. uri 와 headers 에 컨트롤러의 deleteComment 메서드의 매핑 URI와 HTTP 요청 헤더를 저장
+				var uri = /*[[ @{/comments/} ]]*/null;
+				    uri += idx;
+				var headers = {"Content-Type": "application/json", "X-HTTP-Method-Override": "DELETE"};
+				
+				// 3. Ajax 요청에 성공하면 삭제된 댓글을 제외한 댓글 목록을 출력하고, 모달을 숨김 처리
+				$.ajax
+				({
+					url: uri,
+					type: "DELETE",
+					headers: headers,
+					dataType: "json",
+					success: function(response)
+					{
+						if (response.result == false)
+						{
+							alert("댓글 삭제에 실패하였습니다.");
+							return false;
+						}
+						printCommentList();
+					},
+					error: function(xhr, status, error)
+					{
+						alert("에러가 발생하였습니다.");
+						return false;
+					}
+				});
+			}			
+			
 			function printCommentList()
 			{
 				var uri = /*[[ @{/comments/} + ${insurance.idx} ]]*/ null;                    // CommentController 의 getCommentList  메서드의 매핑 URI를 해당 변수에 지정
@@ -230,7 +278,7 @@
 								<li>
 									<span class="name">${comment.writer}</span>
 									<span class="desc">${comment.content}</span>
-									<button type="button" onclick="openModal(${comment.idx}, '${comment.writer}', '${comment.content}' )" class="btn btn-xs btn-circle"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></button>
+									<button type="button" onclick="deleteComment(${comment.idx}" class="btn btn-xs btn-circle"><i class="fa fa-close" aria-hidden="true"></i></button>
                                 </li>
                             `;					
 					    });
@@ -239,6 +287,8 @@
 				     }
 			     }, "json");
 			}
+			
+			/*]]>*/
 		</script>
 	</th:block>
 </html>
