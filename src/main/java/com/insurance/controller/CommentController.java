@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.JsonObject;
 import com.insurance.domain.CommentDTO;
 import com.insurance.service.CommentService;
+import com.google.gson.JsonObject;
 
 @RestController                                                // @RestController :: 선언된 컨트롤러의 모든 메서드는 화면이 아닌, 리턴 타입에 해당하는 데이터 자체를 리턴
 public class CommentController
@@ -34,7 +34,7 @@ public class CommentController
 	 // 객체로 변환된 JSON은 CommentDTO 클래스의 객체인 params에 매핑(바인딩)된다.
 	public JsonObject registerComment(@PathVariable(value = "idx", required = false) Long idx, @RequestBody final CommentDTO params)
 	{                                                                                                                                   
-		JsonObject jsonobj = new JsonObject();
+		JsonObject jsonObj = new JsonObject();
 		
 		try
 		{
@@ -44,7 +44,7 @@ public class CommentController
 			// 댓글의 생성 또는 수정이 실행되면 true를, 실행되지 않으면 false를 저장
 			// 메서드의 실행 결과를 "result" 라는 이름의 프로퍼터로 JSON 객체에 추가해서 리턴
 			boolean isRegistered = commentService.registerComment(params);
-			jsonobj.addProperty("result", isRegistered);
+			jsonObj.addProperty("result", isRegistered);
 			
 		} catch (DataAccessException e) {
 			jsonObj.addProperty("message", "데이터베이스 처리 과정에 문제가 발생하였습니다.");
