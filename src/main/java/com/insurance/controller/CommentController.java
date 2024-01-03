@@ -34,7 +34,7 @@ public class CommentController
 	 // 객체로 변환된 JSON은 CommentDTO 클래스의 객체인 params에 매핑(바인딩)된다.
 	public JsonObject registerComment(@PathVariable(value = "idx", required = false) Long idx, @RequestBody final CommentDTO params)
 	{                                                                                                                                   
-		JsonObject jsonObj = new JsonObject();
+		JsonObject jsonObj = new JsonObject()
 		
 		try
 		{
