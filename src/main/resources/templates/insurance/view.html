@@ -181,10 +181,11 @@
 				// headers ::
 				// Content-Type :: application/json으로 설정
 				// X-HTTP-Method-Override :: REST 방식의 HTTP 요청 메서드 중 PUT, PATCH, DELETE 방식은 브라우저에 따라 지원하지 않는 경우가 있으므로 브라우저에서는 POST 방식으로 데이터를 전송하고, 해당 속성을 헤더에 지정해서 REST 방식의 HTTP 요청 메서드 전송
-				var headers = {"Content-type": "application/json", "X-HTTP-Method-Override": "POST"};
+				var headers = {"Content-Type": "application/json", "X-HTTP-Method-Override": "POST"};
 				// params :: insertComment 의 파라미터로 전달받은 게시글 번호, content에 입력한 댓글 내용, 임의로 지정한 댓글 작성자를 해당 변수에 JSON으로 저장
-				var params = {"insuranceIdx" : insuranceIdx, "content": content.value, "writer": "관리자"};
-				$.ajax({
+				var params = {"insuranceIdx": insuranceIdx, "content": content.value, "writer": "관리자"};
+				$.ajax
+				({
 					// url :: 호출할 URI 지정
 					url: uri,
 					// type :: HTTP 요청 메서드 지정
@@ -223,19 +224,19 @@
 				document.getElementById("modalContent").value = content;
 				
 				document.getElementById("btnCommentUpdate").setAttribute("onclick", "updateComment("+ idx + ")");
-				document.getElementById("btnCommentDelete").setArrribute("onclikc", "deleteComment("+ idx + ")");
+				document.getElementById("btnCommentDelete").setAttribute("onclikc", "deleteComment("+ idx + ")");
 			}
 			
 			function deleteComment(idx)
 			{
 				// 1. Confirm(선택) 함수를 이용해서 다시 한번 댓글의 삭제 여부 확인
-				if (!confirm('댓글을 삭제하겠습니까?'))
+				if (!confirm("댓글을 삭제하겠습니까?"))
 				{
 					return false;
 				}
 				
 				// 2. uri 와 headers 에 컨트롤러의 deleteComment 메서드의 매핑 URI와 HTTP 요청 헤더를 저장
-				var uri = /*[[ @{/comments/} ]]*/null;
+				var uri = /*[[ @{/comments/} ]]*/ null;
 				    uri += idx;
 				var headers = {"Content-Type": "application/json", "X-HTTP-Method-Override": "DELETE"};
 				
@@ -278,7 +279,7 @@
 								<li>
 									<span class="name">${comment.writer}</span>
 									<span class="desc">${comment.content}</span>
-									<button type="button" onclick="deleteComment(${comment.idx}" class="btn btn-xs btn-circle"><i class="fa fa-close" aria-hidden="true"></i></button>
+									<button type="button" onclick="deleteComment(${comment.idx})" class="btn btn-xs btn-circle"><i class="fa fa-close" aria-hidden="true"></i></button>
                                 </li>
                             `;					
 					    });
