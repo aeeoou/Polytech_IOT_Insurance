@@ -5,13 +5,14 @@
 	</th:block>
 	
 	<!-- 메인화면의 리스트 html -->
-	
 	<th:block layout:fragment="search">
 		<div th:replace="insurance/fragments/common :: search"></div>
 	</th:block>
 	
-	<th:block layout:fragment="content">          <!-- layout:fragment="content" 리스트 페이지의 실제 Content가 포함된 영역, 게시글 리스트는 보통 테이블 형태로 처리됨 -->                                         
-		<div class="table-responsive clearfix">   <!-- 메인페이지 영역 -->
+	<!-- 메인페이지 영역 -->
+	<!-- layout:fragment="content" 리스트 페이지의 실제 Content가 포함된 영역, 게시글 리스트는 보통 테이블 형태로 처리됨 -->
+	<th:block layout:fragment="content">                                        
+		<div class="table-responsive clearfix">
 			<table class="table table-hover">     
 				<thead>
 					<tr>
@@ -21,24 +22,35 @@
 						<th> 계약번호 </th>
 						<th> 계약자 </th>
 						<th> 상품명 </th>
-						<th> 계약체결일  </th>
+						<th> 계약체결일 </th>
+						<th> 등록일 </th>
+
 					</tr>
 				</thead>
 				
-				<tbody>                                           <!-- th:each는 자바의 forEach와 유사한 기능 (여기서는 insuranceList를 순환해서 데이터를 출력) -->
+				
+				<tbody>    
+					<!-- th:each는 자바의 forEach와 유사한 기능 (여기서는 insuranceList를 순환해서 데이터를 출력) -->
 					<tr th:if="${not #lists.isEmpty( insuranceList )}" th:each="row : ${insuranceList}">
 						
-						<td scope="row" th:text="${row.idx}"></td>     <!-- 첫 번째 'td' #strings.equals 함수를 사용해서 공지 여부가 'Y'로 등록된 게시글이면 "공지"를 출력, 'N'으로 등록된 게시글이면 게시글 번호를 출력 (equals함수는 문자열을 비교할 때 사용함) -->
+						<!-- 첫 번째 'td' #strings.equals 함수를 사용해서 공지 여부가 'Y'로 등록된 게시글이면 "공지"를 출력, 'N'으로 등록된 게시글이면 게시글 번호를 출력 (equals함수는 문자열을 비교할 때 사용함) -->
+						<td scope="row" th:text="${row.idx}"></td>
 						
-						<td class="text-left">                                                                           <!-- 두 번째 'td' 게시글 제목을 클릭하면 특정 게시글의 상세 페이지를 의미하는 "/insurance/view.do" URI를 호출 -->
+						<!-- 두 번째 'td' 게시글 제목을 클릭하면 특정 게시글의 상세 페이지를 의미하는 "/insurance/view.do" URI를 호출 -->
+						<td class="text-left">
 							<a th:href="|@{/insurance/view.do}${params.makeQueryString(params.currentPageNo)}&idx=${row.idx}|" th:text="${row.insCo}"></a>     <!-- 보험회사 -->					
 						</td>
 						
-						<td th:text="${row.insType}"></td>         <!-- 보험종목 -->
-						<td th:text="${row.contractNo}"></td>      <!-- 계약번호 -->
-						<td th:text="${row.contractor}"></td>      <!-- 세 번째 'td' 작성자(계약자)를 텍스트 형식으로 출력 -->
-						<td th:text="${row.prodName}"></td>        <!-- 상품명 -->			
-						<td th:text="${#temporals.format( row.insertTime, 'yyyy-MM-dd' )}"></td> <!-- 네 번째 'td' InsuranceDTO 클래스에서 시간 관련 인스턴스 변수는 temporals.format 함수를 통해 원하는 날짜 형태로 포맷 -->						 					    
+						<!-- 보험종목 -->
+						<td th:text="${row.insType}"></td>
+						<!-- 계약번호 -->
+						<td th:text="${row.contractNo}"></td>
+						<!-- 세 번째 'td' 작성자(계약자)를 텍스트 형식으로 출력 -->
+						<td th:text="${row.contractor}"></td>
+						<!-- 상품명 -->
+						<td th:text="${row.prodName}"></td>		
+						<!-- 네 번째 'td' InsuranceDTO 클래스에서 시간 관련 인스턴스 변수는 temporals.format 함수를 통해 원하는 날짜 형태로 포맷 -->
+						<td th:text="${#temporals.format( row.insertTime, 'yyyy-MM-dd' )}"></td>					 					    
 					</tr>
 					
 					<tr th:unless="${not #lists.isEmpty( insuranceList )}">
@@ -48,10 +60,11 @@
 			</table>
 			
 			<div class="btn_wrap text-right">
-				<a th:href="@{/insurance/write.do}" class="btn btn-primary waves-effect waves-light">글 쓰기</a> <!-- Write버튼 "/insurance/write.do" URI를 호출해서 신규 글 작성 페이지로 이동 -->
+				<!-- Write버튼 "/insurance/write.do" URI를 호출해서 신규 글 작성 페이지로 이동 -->
+				<a th:href="@{/insurance/write.do}" class="btn btn-primary waves-effect waves-light">글 쓰기</a>
 			</div>
 			
-			<th:block layout:fragment="paging">                        <!-- 리스트에서 특정 페이지로 이동할 수 있는 페이징 영역. 검색 영역과 마찬가지로 페이징 영역을 구현하지 않았기 때문에 번호를 클릭해도 작동하지 않음 -->
+			<th:block layout:fragment="paging">
 				<nav th:replace="insurance/fragments/common :: pagination"></nav>
 			</th:block>
 		</div>
@@ -74,7 +87,7 @@
 					var searchKeyword = document.getElementById("mainSearchKeyword");
 					if (isEmpty(searchKeyword.value) == true)
 					{
-						alert(" 키워드를 입력해 주시오.");
+						alert("검색 키워드를 입력하세요.");
 						searchKeyword.focus();
 						return false;
 					}
@@ -85,7 +98,7 @@
 				}
 				if (isEmpty(form.searchKeyword.value) == ture)
 				{
-					alert(" 키워드를 입력해 주시오오. ");
+					alert("검색 키워드를 입력하세요.");
 					form.searchKeyword.focus();
 					return false;
 				}

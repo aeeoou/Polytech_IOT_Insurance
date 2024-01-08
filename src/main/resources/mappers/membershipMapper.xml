@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mappers.membershipMapper">
+		<!-- 게시판 글 작성?, 회원가입 페이지? -->
+		<insert id="register">
+				INSERT INTO membership
+				(
+				<!-- MySQL 변수명 -->
+							  user_idx
+							, user_id
+							, user_pw
+							, user_email
+							, user_name
+							, user_birth
+							, user_gender
+							, user_phone
+							, quit_yn
+							
+				<!-- STS 변수명 -->			
+							) VALUES (
+						
+							  #{userIdx}
+							, #{userId}
+							, #{userPw}
+							, #{userEmail}
+							, #{userName}
+							, #{userBirth}
+							, IFNULL(#{userGender}, 'F')
+							, #{userPhone}
+							, IFNULL(#{quitYn}, 'N')
+		</insert>
+
+</mapper>
