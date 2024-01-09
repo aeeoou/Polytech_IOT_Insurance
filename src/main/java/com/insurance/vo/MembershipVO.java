@@ -1,6 +1,6 @@
 package com.insurance.vo;
 
-public class MemberVO
+public class MembershipVO
 {
 	private String userId;
 	private String userPw;

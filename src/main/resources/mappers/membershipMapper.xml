@@ -9,28 +9,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				INSERT INTO membership
 				(
 				<!-- MySQL 변수명 -->
-							  user_idx
-							, user_id
-							, user_pw
-							, user_email
-							, user_name
-							, user_birth
-							, user_gender
-							, user_phone
-							, quit_yn
+							  user_idx                  <!-- 고유번호 -->
+							, user_id                   <!-- 아이디 -->
+							, user_pw                   <!-- 비밀번호 -->
+							, user_email                <!-- 이메일 -->
+							, user_name                 <!-- 이름 -->
+							, user_birth                <!-- 주민번호 앞 6자리 -->
+							, user_gender               <!-- 성별 -->
+							, user_phone                <!-- 연락처 -->
+							, quit_yn                   <!-- 탈퇴여부 -->
 							
 				<!-- STS 변수명 -->			
 							) VALUES (
 						
-							  #{userIdx}
-							, #{userId}
-							, #{userPw}
-							, #{userEmail}
-							, #{userName}
-							, #{userBirth}
-							, IFNULL(#{userGender}, 'F')
-							, #{userPhone}
-							, IFNULL(#{quitYn}, 'N')
+							  #{userIdx}                   <!-- 고유번호 -->
+							, #{userId}                    <!-- 아이디 -->
+							, #{userPw}                    <!-- 비밀번호 -->
+							, #{userEmail}                 <!-- 이메일 -->
+							, #{userName}                  <!-- 이름 -->
+							, #{userBirth}                 <!-- 주민번호 앞 6자리 -->
+							, IFNULL(#{userGender}, 'F')   <!-- 성별 -->
+							, #{userPhone}                 <!-- 연락처 -->
+							, IFNULL(#{quitYn}, 'N')       <!-- 탈퇴여부 -->
 		</insert>
 
 </mapper>

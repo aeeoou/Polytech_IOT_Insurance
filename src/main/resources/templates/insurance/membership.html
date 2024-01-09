@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+
+	<title> 회원 가입 </title>
+</head>
+<body>
+	<h2> 회원 가입 양식 </h2>
+	<form th:action="@{/membership/register}" th:object="${membershipVO}" method="post">
+	<!-- Thymeleaf 표현식으로 폼 필드 추가 -->
+	<label>사용자 ID: <input type="text" th:field="*{userId}" required></label><br>
+	<label>사용자 PW: <input type="password" th:field="*{userPw}" required</label><br>
+	
+	<label>사용자 이메일: <input type="text" th:field="*{userEmail}" required</label><br>
+	<label>사용자 이름: <input type="text" th:field="*{userName}" required</label><br>
+	<label>사용자 주민번호: <input type="text" th:field="*{userBirth}" required</label><br>
+	
+	
+	<input type="submit" value="가입">
+	</form>
+</body>
+</html>
