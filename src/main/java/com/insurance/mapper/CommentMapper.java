@@ -9,6 +9,7 @@ import com.insurance.domain.CommentDTO;
 @Mapper                                                              // @Mapper :: 데이터베이스와 통신하는 인터페이스임을 선언
 public interface CommentMapper             
 {
+	// 구현체는 mapper.xml
 	public int insertComment(CommentDTO params);                     // insertComment           :: 댓글을 삽입하는 INSERT 쿼리 호출
 	public CommentDTO selectCommentDetail(Long idx);                 // selectCommentDetail     :: 파라미터로 전달받은 댓글 번호(idx)에 해당하는 댓글의 상세 내용을 조회
 	public int updateComment(CommentDTO params);                     // updateComment           :: 댓글을 수정하는 UPDATE 쿼리 호출

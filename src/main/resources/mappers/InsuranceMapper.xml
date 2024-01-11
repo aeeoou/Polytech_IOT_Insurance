@@ -106,10 +106,14 @@
                       insurance
                  WHERE
                       delete_yn = 'N'
-                 <include refid="CommonMapper.search" />     
-                 ORDER BY       <!-- 순서 -->                      
-                      idx DESC,
-                      insert_time DESC
+                 <include refid="CommonMapper.search" /> 
+                     
+                 <!-- 순서 -->
+                 <!-- DESC :: 내림차순 -->
+                 <!-- ASC  :: 오름차순 -->
+                 ORDER BY                    
+                      contract_date DESC,
+                      idx DESC
                  <include refid="CommonMapper.paging" />     
         </select>
         
