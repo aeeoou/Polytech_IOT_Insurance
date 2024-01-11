@@ -2,7 +2,8 @@ package com.insurance.domain;
 
 import java.time.LocalDateTime;
 
-public class InsuranceDTO extends CommonDTO            // InsuranceDTO 가 CommonDTO 클래스를 상속받도록 변경 ( ++ extends CommonDTO)
+//InsuranceDTO 가 CommonDTO 클래스를 상속받도록 변경 ( ++ extends CommonDTO)
+public class InsuranceDTO extends CommonDTO
 {
 	private Long idx;                 // 글 번호(PK)
 	
@@ -14,14 +15,12 @@ public class InsuranceDTO extends CommonDTO            // InsuranceDTO 가 Commo
 	private String insured;           // 피보험자
 	private String prodName;          // 상품명
 	private String paytExp;           // 납&만기
-	
 	private int    premium;           // 보험료
+	private String memoCol;           // 메모란
 	
 	private String renewProdYn;       // 갱신형 상품 여부
 	private String digiSigYn;         // 전자서명 여부
 	private String deleteYn;          // 
-	 
-	private String memoCol;           // 메모란
 	
 	private LocalDateTime insertTime; // 등록일
 	private LocalDateTime updateTime; // 수정일

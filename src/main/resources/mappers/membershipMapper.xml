@@ -3,9 +3,9 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mappers.membershipMapper">
+<mapper namespace="com.insurance.mapper.MembershipMapper">
 		<!-- 게시판 글 작성?, 회원가입 페이지? -->
-		<insert id="register">
+		<insert id="register" parameterType = "String">
 				INSERT INTO membership
 				(
 				<!-- MySQL 변수명 -->
@@ -32,5 +32,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							, #{userPhone}                 <!-- 연락처 -->
 							, IFNULL(#{quitYn}, 'N')       <!-- 탈퇴여부 -->
 		</insert>
-
+		
+     <update id="delete" parameterType="String">
+        UPDATE membership
+        SET
+              quit_yn = 'Y'
+        WHERE
+            user_id = #{userId}
+     </update>
 </mapper>

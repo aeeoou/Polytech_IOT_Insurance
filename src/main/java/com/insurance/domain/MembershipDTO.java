@@ -1,7 +1,8 @@
-package com.insurance.vo;
+package com.insurance.domain;
 
-public class MembershipVO
+public class MembershipDTO
 {
+	private Long idx;
 	private String userId;
 	private String userPw;
 	private String userEmail;
@@ -9,6 +10,14 @@ public class MembershipVO
 	private String userBirth;
 	private String userPhone;
 	
+	public Long getIdx() {
+		return idx;
+	}
+
+	public void setIdx(Long idx) {
+		this.idx = idx;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -59,7 +68,9 @@ public class MembershipVO
 
 	@Override
 	public String toString() {
-		return "MemberVO [userId=" + userId + ", userPw=" + userPw + ", userEmail=" + userEmail + ", userName="
-				+ userName + ", userBirth=" + userBirth + ", userPhone=" + userPhone + "]";
+		return "MembershipDTO [idx=" + idx + ", userId=" + userId + ", userPw=" + userPw + ", userEmail=" + userEmail
+				+ ", userName=" + userName + ", userBirth=" + userBirth + ", userPhone=" + userPhone + "]";
 	}
+	
+	
 }

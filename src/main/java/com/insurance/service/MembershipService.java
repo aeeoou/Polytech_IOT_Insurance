@@ -1,8 +1,8 @@
 package com.insurance.service;
 
-import com.insurance.vo.MembershipVO;
+import com.insurance.domain.MembershipDTO;
 
 public interface MembershipService
 {
-	public void register(MembershipVO vo) throws Exception;
+	public void registerMember(MembershipDTO params) throws Exception;
 }

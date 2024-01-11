@@ -63,11 +63,8 @@
 								<select name="searchType" class="form-control">
 									<option value="" th:selected="${#strings.isEmpty( params.searchType )}"> 전체 </option>
 									<option value="insCo" th:selected="${#strings.equals( params.searchType, 'insCo' )}"> 보험회사명 </option>
-									<option value="insType" th:selected="${#strings.equals ( params.searchType, 'insType' )}"> 보험종목 </option>
 									<option value="contractNo" th:selected="${#strings.equals( params.searchType, 'contractNo' )}"> 계약번호 </option>
 									<option value="contractor" th:selected="${#strings.equals( params.searchType, 'contractor' )}"> 계약자 </option>
-									<option value="insured" th:selected="${#strings.equals( params.searchType, 'insured' )}"> 피보험자 </option>
-									<option value="prodName" th:selected="${#strings.equals( params.searchType, 'prodName' )}"> 상품명 </option>
 								</select>
 							</div>
 							

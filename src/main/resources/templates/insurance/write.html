@@ -9,9 +9,11 @@
 	<th:block layout:fragment="content">
 		<div class="card-content">
 			<form class="form-horizontal" th:action="@{/insurance/register.do}" th:object="${insurance}" method="post" onsubmit="return registerInsurance(this)">
+				
 				<!--/* update의 경우 서버로 전달할 게시글 번호 (PK) */-->
 				<input type="hidden" th:if="*{idx != null and idx > 0}" th:field="*{idx}" />
 				
+				<!-- 갱신형 상품 여부 -->
 				<div class="form-group">
 					<label for="renewProdYn" class="col-sm-2 control-label"> 갱신형 상품 여부 </label>
 					<div class="col-sm-10" style="margin-top: 10px;">
@@ -19,6 +21,7 @@
 					</div>
 				</div>
 				
+				<!-- 전자서명 여부 -->
 				<div class="form-group">
 					<label for="digiSigYn" class="col-sm-2 control-label"> 전자서명 여부 </label>
 					<div class="col-sm-10" style="margin-top: 10px;">
@@ -26,6 +29,7 @@
 					</div>
 				</div>
 				
+				<!-- 보험회사 -->
 				<div class="form-group">
 					<label for="insCo" class="col-sm-2 control-label"> 보험회사 </label>
 					<!-- <div class="col-sm-10">
@@ -72,13 +76,19 @@
 					</select> 
 				</div>
 				
+				<!-- 보험종목 -->
 				<div class="form-group">
 					<label for="insType" class="col-sm-2 control-label"> 보험종목 </label>
-					<!-- <div class="col-sm-10">
-						<input type="text" th:field="*{insType}" class="form-control" placeholder="보험종목을 입력해 주세요. (손보/생보/장기/화재/일반/자동차)" />
-					</div> -->
 					<select th:field="*{insType}" name="insType" size="1"> 
-						<option value="장기"> 장기 </option>
+					    <option value="미지정"> 미지정 </option>
+					    <option value="종신"> 종신 </option>
+						<option value="간편"> 간편 </option>
+						<option value="운전자"> 운전자 </option>
+						<option value="상해"> 상해 </option>
+						<option value="질병"> 질병 </option>
+						<option value="재물"> 재물 </option>
+						<option value="연금"> 연금 </option>
+						<option value="저축"> 저축 </option>
 						<option value="화재"> 화재 </option>
 						<option value="일반"> 일반 </option>
 						<option value="자동차 개인용"> 자동차 개인용 </option>
@@ -88,6 +98,7 @@
 					</select>                          
 				</div>
 				
+				<!-- 계약체결일 -->
 				<div class="form-group">
 					<label for="contractDate" class="col-sm-2 control-label"> 계약체결일 </label>
 					<div class="col-sm-10">
@@ -95,6 +106,7 @@
 					</div>
 				</div>
 				
+				<!-- 계약번호&증권번호 -->
 				<div class="form-group">
 					<label for="contractNo" class="col-sm-2 control-label"> 계약번호 & 증권번호 </label>
 					<div class="col-sm-10">
@@ -102,6 +114,7 @@
 					</div>
 				</div>
 				
+				<!-- 계약자 -->
 				<div class="form-group">
 					<label for="contractor" class="col-sm-2 control-label"> 계약자 </label>
 					<div class="col-sm-10">
@@ -109,6 +122,7 @@
 					</div>
 				</div>
 				
+				<!-- 피보험자 -->
 				<div class="form-group">
 					<label for="insured" class="col-sm-2 control-label"> 피보험자 </label>
 					<div class="col-sm-10">
@@ -116,6 +130,7 @@
 					</div>
 				</div>
 				
+				<!-- 상품명 -->
 				<div class="form-group">
 					<label for="prodName" class="col-sm-2 control-label"> 상품명 </label>
 					<div class="col-sm-10">
@@ -123,20 +138,53 @@
 					</div>
 				</div>
 				
+				<!-- 납기&만기 -->
 				<div class="form-group">
-					<label for="paytExp" class="col-sm-2 control-label"> 납 & 만기 </label>
-					<div class="col-sm-10">
-						<input type="text" th:field="*{paytExp}" class="form-control" placeholder="납&만기를 입력해 주세요." />
-					</div>
+					<label for="paytExp" class="col-sm-2 control-label"> 납기 & 만기 </label>
+					<select th:field="*{paytExp}" name="paytExp" size="1">
+						<option value="일시납"> 일시납 </option>
+						<option value="전기납"> 전기납 </option>
+						<option value="1년납"> 1년납 </option>
+						<option value="3년납"> 3년납 </option>
+						<option value="5년납"> 5년납 </option>
+						<option value="7년납"> 7년납 </option>
+						<option value="10년납"> 10년납 </option>
+						<option value="15년납"> 15년납 </option>
+						<option value="20년납"> 20년납 </option>
+						<option value="25년납"> 25년납 </option>
+						<option value="30년납"> 30년납 </option>		
+					</select>
+					
+					<select th:field="*{paytExp}" name="paytExp" size="1">
+						<option value="종신"> 종신 </option>
+						<option value="1년만기"> 1년만기 </option>
+						<option value="3년만기"> 3년만기 </option>
+						<option value="5년만기"> 5년만기 </option>
+						<option value="7년만기"> 7년만기 </option>
+						<option value="10년만기"> 10년만기 </option>
+						<option value="15년만기"> 15년만기 </option>
+						<option value="20년만기"> 20년만기 </option>
+						<option value="25년만기"> 25년만기 </option>
+						<option value="30년만기"> 30년만기 </option>
+						<option value=""> </option>
+						<option value="60세만기"> 60세만기 </option>
+						<option value="70세만기"> 70세만기 </option>
+						<option value="80세만기"> 80세만기 </option>
+						<option value="90세만기"> 90년만기 </option>
+						<option value="100세만기"> 100세만기 </option>
+						<option value="110세만기"> 110세만기 </option>
+					</select>
 				</div>
-				
+			
+				<!-- 1회 납입보험료 -->
 				<div class="form-group">
-					<label for="premium" class="col-sm-2 control-label"> 보험료 </label>
+					<label for="premium" class="col-sm-2 control-label"> 1회 납입보험료 </label>
 					<div class="col-sm-10">
 						<input type="text" th:field="*{premium}" class="form-control" placeholder="보험료를 입력해 주세요." />
 					</div>
 				</div>
 				
+				<!-- 메모란 -->
 				<div class="form-group">
 					<label for="memoCol" class="col-sm-2 control-label"> 메모란 </label>
 					<div class="col-sm-10">

@@ -21,8 +21,9 @@ class MapperTests
 	@Autowired
 	private InsuranceMapper insuranceMapper;
 	
+	// testOfInsert 게시글 작성 단위 테스트
 	@Test
-	public void testOfInsert()    // testOfInsert 게시글 작성 단위 테스트
+	public void testOfInsert()
 	{
 		InsuranceDTO params = new InsuranceDTO();
 		

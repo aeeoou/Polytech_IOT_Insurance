@@ -16,14 +16,14 @@
 			<table class="table table-hover">     
 				<thead>
 					<tr>
-						<th> 계약건수  </th>
-						<th> 보험회사명 </th>
-						<th> 보험종목 </th>
-						<th> 계약번호 </th>
-						<th> 계약자 </th>
-						<th> 상품명 </th>
-						<th> 계약체결일 </th>
-						<th> 등록일 </th>
+						<th> 계약건수  </th>      
+						<th> 보험회사명 </th>        <!-- ins_co         #insCo -->
+						<th> 보험종목 </th>         <!-- ins_type       #insType -->
+						<th> 계약번호 </th>         <!-- contract_no    #contractNo -->
+						<th> 계약자 </th>           <!-- contractor     #contractor -->
+						<th> 상품명 </th>           <!-- prod_name      #prodName -->
+						<th> 계약체결일 </th>        <!-- contract_date  #contractDate -->
+						<th> 등록일 </th>           <!-- insert_time    #insertTime -->
 
 					</tr>
 				</thead>
@@ -34,22 +34,32 @@
 					<tr th:if="${not #lists.isEmpty( insuranceList )}" th:each="row : ${insuranceList}">
 						
 						<!-- 첫 번째 'td' #strings.equals 함수를 사용해서 공지 여부가 'Y'로 등록된 게시글이면 "공지"를 출력, 'N'으로 등록된 게시글이면 게시글 번호를 출력 (equals함수는 문자열을 비교할 때 사용함) -->
+						<!-- 공지 기능은 현재 사용하지 않음 (추후 뺄 수도 있음 2024-01-11) -->
 						<td scope="row" th:text="${row.idx}"></td>
 						
-						<!-- 두 번째 'td' 게시글 제목을 클릭하면 특정 게시글의 상세 페이지를 의미하는 "/insurance/view.do" URI를 호출 -->
+						<!-- 두 번째 'td' 보험회사명 -->
+						<td th:text="${row.insCo}"></td>
+
+						<!-- 세 번째 'td' 보험종목 -->
+						<td th:text="${row.insType}"></td>
+						
+						<!-- 네 번째 'td' 계약번호 -->
+						<!-- 게시글 제목을 클릭하면 특정 게시글의 상세 페이지를 의미하는 "/insurance/view.do" URI를 호출 -->
 						<td class="text-left">
-							<a th:href="|@{/insurance/view.do}${params.makeQueryString(params.currentPageNo)}&idx=${row.idx}|" th:text="${row.insCo}"></a>     <!-- 보험회사 -->					
+							<a th:href="|@{/insurance/view.do}${params.makeQueryString(params.currentPageNo)}&idx=${row.idx}|" th:text="${row.contractNo}"></a>
 						</td>
 						
-						<!-- 보험종목 -->
-						<td th:text="${row.insType}"></td>
-						<!-- 계약번호 -->
-						<td th:text="${row.contractNo}"></td>
-						<!-- 세 번째 'td' 작성자(계약자)를 텍스트 형식으로 출력 -->
+						<!-- 다섯 번째 'td' 계약자 -->
 						<td th:text="${row.contractor}"></td>
-						<!-- 상품명 -->
-						<td th:text="${row.prodName}"></td>		
-						<!-- 네 번째 'td' InsuranceDTO 클래스에서 시간 관련 인스턴스 변수는 temporals.format 함수를 통해 원하는 날짜 형태로 포맷 -->
+						
+						<!-- 여섯 번째 'td' 상품명 -->
+						<td th:text="${row.prodName}"></td>
+						
+						<!-- 일곱 번째 'td' 계약체결일 -->
+						<td th:text="${row.contractDate}"></td>
+						
+						<!-- 여덟 번째 'td' 등록일 -->
+						<!-- 등록일 InsuranceDTO 클래스에서 시간 관련 인스턴스 변수는 temporals.format 함수를 통해 원하는 날짜 형태로 포맷 -->
 						<td th:text="${#temporals.format( row.insertTime, 'yyyy-MM-dd' )}"></td>					 					    
 					</tr>
 					
