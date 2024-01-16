@@ -2,7 +2,7 @@ package com.insurance.domain;
 
 public class MembershipDTO
 {
-	private Long userIdx;
+	private Long   userIdx;
 	private String userId;
 	private String userPw;
 	private String userEmail;
@@ -11,6 +11,7 @@ public class MembershipDTO
 	private String userGender;
 	private String userPhone;
 	private String quitYn;
+	private String masterYn;
 	
 	public Long getUserIdx() {
 		return userIdx;
@@ -66,19 +67,20 @@ public class MembershipDTO
 	public void setQuitYn(String quitYn) {
 		this.quitYn = quitYn;
 	}
+	public String getMasterYn() {
+		return masterYn;
+	}
+	public void setMasterYn(String masterYn) {
+		this.masterYn = masterYn;
+	}
 	
 	@Override
 	public String toString() {
 		return "MembershipDTO [userIdx=" + userIdx + ", userId=" + userId + ", userPw=" + userPw + ", userEmail="
 				+ userEmail + ", userName=" + userName + ", userBirth=" + userBirth + ", userGender=" + userGender
-				+ ", userPhone=" + userPhone + ", quitYn=" + quitYn + "]";
+				+ ", userPhone=" + userPhone + ", quitYn=" + quitYn + ", masterYn=" + masterYn + "]";
 	}
+	
+	
+	
 }
-	
-	
-	
-	
-	
-	
-	
-	

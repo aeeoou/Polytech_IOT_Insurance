@@ -4,40 +4,107 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.insurance.mapper.MembershipMapper">
-		<!-- 게시판 글 작성?, 회원가입 페이지? -->
-		<insert id="register" parameterType = "String">
-				INSERT INTO membership
-				(
+
+        <!-- 회원가입 페이지 -->
+		<sql id="membershipColumns">
+				
 				<!-- MySQL 변수명 -->
-							  user_idx                  <!-- 고유번호 -->
-							, user_id                   <!-- 아이디 -->
-							, user_pw                   <!-- 비밀번호 -->
-							, user_email                <!-- 이메일 -->
-							, user_name                 <!-- 이름 -->
-							, user_birth                <!-- 주민번호 앞 6자리 -->
-							, user_gender               <!-- 성별 -->
-							, user_phone                <!-- 연락처 -->
-							, quit_yn                   <!-- 탈퇴여부 -->
-							
-				<!-- STS 변수명 -->			
-							) VALUES (
-						
-							  #{userIdx}                   <!-- 고유번호 -->
-							, #{userId}                    <!-- 아이디 -->
-							, #{userPw}                    <!-- 비밀번호 -->
-							, #{userEmail}                 <!-- 이메일 -->
-							, #{userName}                  <!-- 이름 -->
-							, #{userBirth}                 <!-- 주민번호 앞 6자리 -->
-							, IFNULL(#{userGender}, 'F')   <!-- 성별 -->
-							, #{userPhone}                 <!-- 연락처 -->
-							, IFNULL(#{quitYn}, 'N')       <!-- 탈퇴여부 -->
-		</insert>
+			         user_idx                  <!-- 고유번호 -->
+			       , user_id                   <!-- 아이디 -->
+			       , user_pw                   <!-- 비밀번호 -->
+				   , user_email                <!-- 이메일 -->
+			       , user_name                 <!-- 이름 -->
+			       , user_birth                <!-- 주민번호 앞 6자리 -->
+				   , user_gender               <!-- 성별 -->
+				   , user_phone                <!-- 연락처 -->
+				   , quit_yn                   <!-- 탈퇴여부 -->
+				   , master_yn                 <!-- 슈퍼계정 & 일반계정 -->
 		
-     <update id="delete" parameterType="String">
-        UPDATE membership
-        SET
-              quit_yn = 'Y'
-        WHERE
-            user_id = #{userId}
-     </update>
+		</sql>
+		
+		<insert id="insertMembership" parameterType="MembershipDTO">
+		            
+		        INSERT INTO membership
+		        (
+		           <include refid="membershipColumns" />
+		          
+		        ) VALUES (
+		        
+		        <!-- STS 변수명 -->
+				     #{userIdx}                <!-- 고유번호 -->
+			       , #{userId}                 <!-- 아이디 -->
+			       , #{userPw}                 <!-- 비밀번호 -->
+				   , #{userEmail}              <!-- 이메일 -->
+				   , #{userName}               <!-- 이름 -->
+			       , #{userBirth}              <!-- 주민번호 앞 6자리 -->
+				   , IFNULL(#{userGender}, 'F')<!-- 성별 -->
+				   , #{userPhone}              <!-- 연락처 -->
+				   , IFNULL(#{quitYn}, 'N')    <!-- 탈퇴여부 -->
+				   , IFNULL(#{masterYn}, 'N')  <!-- 슈퍼계쩡 & 일반계정 -->
+		        
+		        )		
+		</insert>
+     
+        <select id="selectMembershipDetail" parameterType="long" resultType="MembershipDTO">
+        
+                SELECT
+                      <include refid="membershipColumns" />
+                FROM
+                      membership
+                WHERE
+                      quit_yn = 'N'
+                AND
+                      user_idx = #{userIdx}
+        </select>
+        
+        <update id="updateMembership" parameterType="MembershipDTO">
+        
+        		UPDATE membership
+        		
+        		SET
+        		       user_id = #{userId}
+        		     , user_pw = #{userPw}
+        		     , user_email = #{userEmail}
+        		     , user_name = #{userName}
+        		     , user_birth = #{userBirth}
+        		     , user_gender = IFNULL(#{userGender}, 'F')
+        		     , user_phone = #{userPhone}
+        		     , quit_yn = IFNULL(#{quitYn}, 'N')
+        		     , master_yn = IFNULL(#{masterYn}, 'N')
+        		WHERE
+        		       user_idx = #{userIdx}
+        </update>
+        
+        <update id="deleteMembership" parameterType="long">
+        
+                UPDATE membership
+                
+                SET
+                       quit_yn = 'N'
+                WHERE
+                       user_idx = #{userIdx}
+        </update>
+        
+        <select id="selectMembershipList" parameterType="MembershipDTO" resultType="MembershipDTO">
+        
+                SELECT
+                      <include refid="membershipColumns" />
+                FROM
+                      membership
+                WHERE
+                      quit_yn = 'N'
+                ORDER BY
+                      user_idx DESC,
+        </select>
+        
+        <select id="selectMembershipTotalCount" parameterType="membershipDTO" resultType="int">
+        
+        		SELECT
+        		      COUNT(*)
+        		FROM
+        		      membership
+        		WHERE
+        		      quit_yn = 'N'
+        </select>
+    
 </mapper>
