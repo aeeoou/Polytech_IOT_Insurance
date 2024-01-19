@@ -84,12 +84,12 @@
 			{
 				var result = (
 							   isValid(form.userId, "아이디", null, null)
-							   isValid(form.userPw, "비밀번호", null, null)
-							   isValid(form.userEmail, "이메일", null, null)
-							   isValid(form.userName, "이름", null, null)
-							   isValid(form.userBirth, "생년월일", null, null)
-							   isValid(form.userGender, "성별", null, null)
-							   isValid(form.userPhone, "연락처", null, null)
+							&& isValid(form.userPw, "비밀번호", null, null)
+							&& isValid(form.userEmail, "이메일", null, null)
+							&& isValid(form.userName, "이름", null, null)
+							&& isValid(form.userBirth, "생년월일", null, null)
+							&& isValid(form.userGender, "성별", null, null)
+							&& isValid(form.userPhone, "연락처", null, null)
 							 );
 							 
 							 if ( result == false)

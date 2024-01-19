@@ -106,5 +106,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         		WHERE
         		      quit_yn = 'N'
         </select>
+        
+        <select id="selectMembershipByUserId" resultType="com.insurance.domain.MembershipDTO">
+        	     
+        	    SELECT * FROM membership
+        	
+        	    WHERE 
+        	          user_id = 
+        </select>
     
 </mapper>

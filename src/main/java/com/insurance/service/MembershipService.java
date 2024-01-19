@@ -7,7 +7,13 @@ import com.insurance.domain.MembershipDTO;
 public interface MembershipService
 {
 	 public boolean registerMembership(MembershipDTO params);
+	 // 회원번호로 정보 가져오는 함수
 	 public MembershipDTO getMembershipDetail(long idx);
+	 // 회원아이디로 정보 가져오는 함수 (추가하기)
+	 public MembershipDTO getMembershipByUserId(String userId);
+	 
 	 public boolean deleteMembership(long idx);
 	 public List<MembershipDTO> getMembershipList();
+
 }
+//컨트롤러에서 부를 수 있는 서비스가 먼저 있어야한다.

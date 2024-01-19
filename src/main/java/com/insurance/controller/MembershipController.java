@@ -1,5 +1,7 @@
 package com.insurance.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -36,7 +38,7 @@ public class MembershipController
 		      // html 경로
 		return "insurance/membership";
 	}
-	
+	// 데이터를 받아오는 용도 
 	@PostMapping(value = "membership/register.do")
 	public String registerMembership(final MembershipDTO params)
 	{
@@ -54,4 +56,5 @@ public class MembershipController
 		}
 		return "redirect:/membership/list.do";
 	}
+
 }

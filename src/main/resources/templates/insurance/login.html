@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="insurance/layout/basic">
+	<th:block layout:fragment="title">
+
+	<head>
+		<meta charset="UTF-8">
+			<title> 로그인 </title>
+ 	</head>
+ 	
+		<body>
+			<h1> 로그인 구현 </h1>
+				<form action="./login" method="post">
+					<input type="text" name="userId" required="required">
+					<input type="password" name="userPw" required="required">
+					
+					<button type="submit"> 로그인 </button>
+					<button type="reset"> 초기화 </button>	
+				</form>
+		</body>
+</html>

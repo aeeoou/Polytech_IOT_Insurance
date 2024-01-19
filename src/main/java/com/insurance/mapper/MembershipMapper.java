@@ -3,6 +3,7 @@ package com.insurance.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.insurance.domain.MembershipDTO;
 
@@ -16,5 +17,6 @@ public interface MembershipMapper
 	public int deleteMembership(long idx);
 	public List<MembershipDTO> selectMembershipList();
 	public int selectMembershipTotalCount();
+	public MembershipDTO selectMembershipByUserId(@Param("userId") String userId);
 
 }

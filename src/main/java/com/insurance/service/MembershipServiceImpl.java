@@ -66,4 +66,11 @@ public class MembershipServiceImpl implements MembershipService
 		
 		return membershipList;
 	}
+	
+	// 회원아이디로 정보를 가져오는 함수를 실제 구현하는 곳
+	@Override
+	public MembershipDTO getMembershipByUserId(String userId)
+	{
+		return membershipMapper.selectMembershipByUserId(userId);
+	}
 }
