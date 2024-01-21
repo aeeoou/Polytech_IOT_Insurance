@@ -12,6 +12,8 @@ public class LoginService
 	@Autowired
 	private LoginDAO loginDAO;
 	
+	public LoginDTO getLoginDetail(long idx);
+	
 	public LoginDTO loginAction(LoginDTO loginDTO)
 	{
 		return loginDAO.loginAction(loginDTO);

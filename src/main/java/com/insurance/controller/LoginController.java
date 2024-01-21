@@ -2,10 +2,13 @@ package com.insurance.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.insurance.domain.LoginDTO;
+import com.insurance.domain.MembershipDTO;
 import com.insurance.service.LoginService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,11 +19,28 @@ public class LoginController
 	@Autowired
 	private LoginService loginService;
 	
-	@GetMapping("/login")
-	public String login()
+	@GetMapping(value = "/login/write.do")
+	public String openLoginWrite(@RequestParam(value = "userIdx", required = false) Long idx, Model model)
 	{
-		return "login";
+		if (idx == null)
+		{
+			model.addAttribute("login", new LoginDTO());
+			
+		} else {
+			LoginDTO login = loginService.getLoginDetail(idx);
+				
+			if (login == null)
+			{
+				return "login/write";
+			}
+			model.addAttribute("login", login);
+		}
+	    // html 경로
+		return "insurance/login";
 	}
+	
+	
+	
 	
 	@PostMapping("/login")
 	public String loginAction(LoginDTO loginDTO, HttpServletRequest request)
@@ -32,7 +52,7 @@ public class LoginController
 			request.getSession().setAttribute("userId", result.getUserId());
 			request.getSession().setAttribute("userName", result.getUserName());
 			
-			return "redirect:/insurance";
+			return "insurance/login";
 		
 		} else {
 			if(request.getSession().getAttribute("userId") != null)

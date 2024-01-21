@@ -1,20 +1,47 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="insurance/layout/basic">
 	<th:block layout:fragment="title">
-
-	<head>
-		<meta charset="UTF-8">
-			<title> 로그인 </title>
- 	</head>
- 	
-		<body>
-			<h1> 로그인 구현 </h1>
-				<form action="./login" method="post">
-					<input type="text" name="userId" required="required">
-					<input type="password" name="userPw" required="required">
-					
-					<button type="submit"> 로그인 </button>
-					<button type="reset"> 초기화 </button>	
-				</form>
-		</body>
+		<title> 로그인1 </title>
+	</th:block>
+	
+	<!-- layout:fragment="content" -->
+	<!-- 게시글 상세 페이지에서 폼 태그는 필요하지 않지만 화면 처리를 위해 사용 -->
+	<!-- (write.html과 같이 th:object 속성을 통해 *{} 표현식으로 제목, 이름, 내용, 등록일, 조회 수를 텍스트 형식으로 출력 -->
+	
+	<th:block layout:fragment="content">
+		<div class="card-content">
+			<form class="form-horizontal" th:action="@{/login/register.do}" th:object="${login}" method="post" onsubmit="return registerMembership(this)">
+				
+				<!-- 아이디 -->
+				<div class="form-group">
+					<label for="userId" class="com-sm-2 control-label"> 로그인 </label>
+						<div class="col-sm-10">
+							<input type="text" th:field="*{userId}" class="form-control" placeholder="아이디를 입력해주세요." />	
+						</div>
+				</div>
+				
+				<!-- 비밀번호 -->
+				<div class="form-group">
+					<label for="userPw" class="com-sm-2 control-label"> 비밀번호 </label>
+						<div class="col-sm-10">
+							<input type="password" th:field="*{userPw}" class="form-control" placeholder="비밀번호를 입력해주세요." />
+						</div>
+				</div>
+				
+				<div class="btn_wrap text-center">
+					<a th:href="@{/login/list.do}" class="btn btn-default waves-effect waves-light"> 뒤로가기 </a>
+						<button type="submit" class="btn btn-primary waves-effect waves-light"> 로그인 </button>
+			    </div>
+			</form>
+		</div>
+	</th:block>
 </html>
+
+
+			<!-- view.html 버튼 구문
+			<div class="btn_wrap text-center" th:object="${params}">
+				<a th:href="|@{/insurance/list.do}*{makeQueryString(currentPageNo)}|" class="btn btn-default waves-effect waves-light"> 뒤로가기 </a>
+				<a th:href="|@{/insurance/write.do}*{makeQueryString(currentPageNo)}&idx=${insurance.idx}|" class="btn btn-primary waves-effect waves-light"> 수정하기 </a>
+				<button type="button" class="btn btn-danger waves-effect waves-light" th:onclick="deleteInsurance([[ ${insurance.idx} ]], [[ *{makeQueryString(currentPageNo)} ]])"> 삭제하기 </button>
+			</div>
+			-->
