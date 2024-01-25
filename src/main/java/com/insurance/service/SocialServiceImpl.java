@@ -1,3 +1,4 @@
+/*
 package com.insurance.service;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -28,3 +29,4 @@ public class SocialServiceImpl implements SocialService
 				+ "&response_type=code";
 	}
 }
+*/
