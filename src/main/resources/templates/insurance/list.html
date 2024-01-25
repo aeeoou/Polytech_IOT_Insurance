@@ -69,11 +69,17 @@
 				</tbody>
 			</table>
 			
+			<!-- 글 쓰기 버튼, 눌렀을 때 글쓰기 화면으로 이동 -->
 			<div class="btn_wrap text-right">
 				<!-- Write버튼 "/insurance/write.do" URI를 호출해서 신규 글 작성 페이지로 이동 -->
 				<a th:href="@{/insurance/write.do}" class="btn btn-primary waves-effect waves-light">글 쓰기</a>
 			</div>
 			
+			<!-- 로그아웃 버튼, 눌렀을 때 로그인 페이지로 이동 -->	
+			<div class="btn_wrap text-center">
+				<a th:href="@{/membership/login.do}" class="btn btn-default waves-effect waves-light"> 로그아웃 </a>
+			</div>
+		
 			<th:block layout:fragment="paging">
 				<nav th:replace="insurance/fragments/common :: pagination"></nav>
 			</th:block>

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="insurance/layout/basic">
 	<th:block layout:fragment="title">
-		<title> 이것은 로그인 화면일까? </title>
+		<title> 로그인 화면 </title>
 	</th:block>
 	
 	<!-- layout:fragment="content" -->
 	<!-- 게시글 상세 페이지에서 폼 태그는 필요하지 않지만 화면 처리를 위해 사용 -->
 	<!-- (write.html과 같이 th:object 속성을 통해 *{} 표현식으로 제목, 이름, 내용, 등록일, 조회 수를 텍스트 형식으로 출력 -->
+	
+	<!-- 로그인 -->
 	
 	<th:block layout:fragment="content">
 		<div class="card-content">
@@ -28,11 +30,18 @@
 						</div>
 				</div>
 				
+				<!-- 로그인, 회원가입 버튼 -->	
 				<div class="btn_wrap text-center">
 					<a th:href="@{/membership/write.do}" class="btn btn-default waves-effect waves-light"> 회원가입 </a>
 						<button type="submit" class="btn btn-primary waves-effect waves-light"> 로그인 </button>
 			    </div>
+			    
+			    <!-- 소셜로그인 -->
+			    <div>
+			    	<p><a th:href="@{|${kakoUrl}|}"> 카카오 로그인 </a></p>
+			    </div>
+			    
 			</form>
 		</div>
-	</th:block>
+	</th:block>	
 </html>

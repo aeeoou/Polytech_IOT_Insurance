@@ -18,4 +18,6 @@ public interface MembershipService
 	 
 	 // 로그인 함수
 	 public boolean login(String userId, String userPw); 
+	 // 로그아웃 함수?
+	 public void logout();
 }

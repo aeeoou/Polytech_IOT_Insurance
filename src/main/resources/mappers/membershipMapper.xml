@@ -46,7 +46,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</insert>
      
         <select id="selectMembershipDetail" parameterType="long" resultType="MembershipDTO">
-        
+       			
+       			<!-- SELECT문은 데이터를 검색하는 데 사용 --> 
                 SELECT
                       <include refid="membershipColumns" />
                 FROM
@@ -119,5 +120,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         	    AND
         	    	quit_yn = 'N'
         </select>
-
+        
 </mapper>

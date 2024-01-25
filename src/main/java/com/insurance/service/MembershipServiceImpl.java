@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.insurance.domain.MembershipDTO;
 import com.insurance.mapper.MembershipMapper;
 
+import jakarta.servlet.http.HttpSession;
+
+
 @Service
 public class MembershipServiceImpl implements MembershipService
 {
@@ -103,5 +106,18 @@ public class MembershipServiceImpl implements MembershipService
 		}
 		// 로그인 실패
 		return false;
+	}
+	
+	// 로그아웃
+	@Autowired
+	private HttpSession httpSession;
+	
+	@Override
+	public void logout()
+	{
+		if (httpSession != null)
+		{
+			httpSession.invalidate();
+		}
 	}
 }
