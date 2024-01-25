@@ -10,7 +10,7 @@ public class InsuranceDTO extends CommonDTO
 	private String insType;           // 보종
 	private String insCo;             // 보험회사
 	private String contractDate;      // 계약체결일
-	private String contractNo;        // 계약번호	
+	private String contractNo;        // 계약번호
 	private String contractor;        // 계약자
 	private String insured;           // 피보험자
 	private String prodName;          // 상품명

@@ -1,6 +1,6 @@
-package com.insurance.controller;
+// Controller (흐름제어)
 
-import java.util.List;
+package com.insurance.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -24,6 +24,7 @@ public class MembershipController
 	{	
 		if (idx == null)
 		{
+			// 회원가입할 때 필요함
 			model.addAttribute("membership", new MembershipDTO());
 		
 		} else {
@@ -35,9 +36,10 @@ public class MembershipController
 			}
 			model.addAttribute("membership", membership);
 		}
-		      // html 경로
+		// html 경로
 		return "insurance/membership";
 	}
+	
 	// 데이터를 받아오는 용도 
 	@PostMapping(value = "membership/register.do")
 	public String registerMembership(final MembershipDTO params)
@@ -54,7 +56,46 @@ public class MembershipController
 		} catch (Exception e) {
 			// TODO => 시스템에 문제가 발생하였다는 메시지를 전달
 		}
+		// 실패했으니까 다시 list.do로 가라
 		return "redirect:/membership/list.do";
 	}
-
+	
+	// 로그인 화면 (Get)
+	@GetMapping("/membership/login.do")
+	public String showLoginView(Model model)
+	{
+		// 로그인 화면 주소
+		return "insurance/login";
+	}
+	
+	
+	// 로그인 Post
+	@PostMapping(value = "membership/login.do")
+	public String loginMembership(@RequestParam("userId") String userId, @RequestParam("userPw") String userPw, Model model)
+	{
+		try
+		{
+			// 'membershipService'의 'login' 메서드를 호출
+			boolean isLogin = membershipService.login(userId, userPw);
+			
+			if (isLogin)
+			{
+				// TODO => 로그인 성공 시 처리
+				model.addAttribute("message", "로그인 성공!");
+				return "redirect:/insurance/list.do";
+			}
+			else
+			{
+				// TODO => 로그인 실패 시 처리
+				model.addAttribute("message", "로그인 실패. 아이디 또는 비밀번호를 확인하세요.");
+			}
+		}
+		catch (Exception e)
+		{
+			// TODO => 예외 처리
+			model.addAttribute("message", "로그인 중 오류 발생: " + e.getMessage());
+		}
+		// 로그인 결과를 보여줄 페이지로 이동
+		return "redirect:/membership/login.do";
+	}
 }

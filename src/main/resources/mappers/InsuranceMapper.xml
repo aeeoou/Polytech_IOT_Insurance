@@ -64,7 +64,8 @@
                       idx = #{idx}        
         </select>
         
-        <update id="updateInsurance" parameterType="InsuranceDTO">    <!-- 게시글 작성할 때 화면 설정 -->
+        <!-- 게시글 작성할 때 화면 설정 -->
+        <update id="updateInsurance" parameterType="InsuranceDTO">
         
                 UPDATE insurance
                 
@@ -87,7 +88,8 @@
                     idx = #{idx}                             
         </update>
         
-        <update id="deleteInsurance" parameterType="long">             <!-- 게시글 삭제할 때 화면 설정 --> 
+        <!-- 게시글 삭제할 때 화면 설정 --> 
+        <update id="deleteInsurance" parameterType="long">
         
                  UPDATE insurance
                 

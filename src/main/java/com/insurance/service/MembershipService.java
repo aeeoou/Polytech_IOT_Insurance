@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.insurance.domain.MembershipDTO;
 
+//컨트롤러에서 부를 수 있는 서비스가 먼저 있어야한다.
 public interface MembershipService
 {
 	 public boolean registerMembership(MembershipDTO params);
@@ -14,6 +15,7 @@ public interface MembershipService
 	 
 	 public boolean deleteMembership(long idx);
 	 public List<MembershipDTO> getMembershipList();
-
+	 
+	 // 로그인 함수
+	 public boolean login(String userId, String userPw); 
 }
-//컨트롤러에서 부를 수 있는 서비스가 먼저 있어야한다.

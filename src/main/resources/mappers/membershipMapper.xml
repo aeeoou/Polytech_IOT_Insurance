@@ -107,12 +107,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         		      quit_yn = 'N'
         </select>
         
-        <select id="selectMembershipByUserId" resultType="com.insurance.domain.MembershipDTO">
+		<!-- 로그인 (입력한 아이디의 회원정보를 갖고온다) -->
+        <select id="selectMembershipByUserId" parameterType="String" resultType="MembershipDTO">
         	     
-        	    SELECT * FROM membership
-        	
-        	    WHERE 
-        	          user_id = 
+        	    SELECT 
+        	    	*
+       	    	FROM
+       	    		membership
+        	    WHERE
+        	    	user_id = #{userId}
+        	    AND
+        	    	quit_yn = 'N'
         </select>
-    
+
 </mapper>

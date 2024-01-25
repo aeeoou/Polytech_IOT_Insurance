@@ -65,7 +65,7 @@ CREATE TABLE membership
     user_pw           VARCHAR(100) NOT NULL,                  /* 사용자 패스워드 */
     user_email        VARCHAR(100) NOT NULL,                  /* 사용자 이메일 */
     user_name         VARCHAR(100) NOT NULL,                  /* 사용자 이름 */
-    user_birth        VARCHAR(10) NOT NULL,                  /* 사용자 생년월일 */
+    user_birth        VARCHAR(10) NOT NULL,                   /* 사용자 생년월일 */
     user_gender       ENUM('M', 'F') NOT NULL DEFAULT 'F',    /* 사용자 성별 */
     user_phone        VARCHAR(100) NOT NULL,                  /* 사용자 연락처 */
     quit_yn           ENUM('Y', 'N') NOT NULL DEFAULT 'N',    /* 탈퇴여부 */
@@ -73,6 +73,4 @@ CREATE TABLE membership
     
     PRIMARY KEY (user_idx)
 );
-
-
 
