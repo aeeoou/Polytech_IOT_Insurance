@@ -16,8 +16,8 @@ public interface MembershipService
 	 public boolean deleteMembership(long idx);
 	 public List<MembershipDTO> getMembershipList();
 	 
-	 // 로그인 함수
+	 // 로그인 메서드
 	 public boolean login(String userId, String userPw); 
-	 // 로그아웃 함수?
+	 // 로그아웃 메서드
 	 public void logout();
 }

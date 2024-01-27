@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+// ModelAndView :: 이 객체를 사용하여 로그인 상태를 확인하고, 이에 따라 적절한 뷰로 이동하거나 리다이렉트 한다.
+import org.springframework.web.servlet.ModelAndView;
 
 import com.insurance.constant.Method;
 import com.insurance.domain.InsuranceDTO;
@@ -26,8 +28,42 @@ public class InsuranceController extends UiUtils
 	private InsuranceService insuranceService;
 
 	@GetMapping(value = "/insurance/write.do")
+	public ModelAndView openInsuranceWrite(@ModelAttribute("params") InsuranceDTO params, @RequestParam(value = "idx", required = false) Long idx)
+	{
+		ModelAndView modelAndView = new ModelAndView();
+		
+		// 사용자가 로그인되어 있는지 확인하기
+		if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated())
+		{
+            if (idx == null)
+            {
+            	modelAndView.addObject("insurance", new InsuranceDTO());
+            
+            } else {
+                InsuranceDTO insurance = insuranceService.getInsuranceDetail(idx);
+                
+                if (insurance == null || "Y".equals(insurance.getDeleteYn()))
+                {
+                    modelAndView.setViewName("redirect:/insurance/list.do");
+                    return modelAndView;
+                }
+                modelAndView.addObject("insurance", insurance);
+            }
+            modelAndView.setViewName("insurance/write");
+            
+        } else {
+        	// 사용자가 로그인되어 있지 않은 경우, 로그인 페이지로 리다이렉트 한다.
+            modelAndView.setViewName("redirect:/membership/login.do");
+        }
+		//
+        return modelAndView;
+    }
+		
+	}
+	/*
 	public String openInsuranceWrite(@ModelAttribute("params") InsuranceDTO params, @RequestParam(value = "idx", required = false) Long idx, Model model)
 	{
+		// 로그인 된 상태인지 검사 필요
 		if (idx == null)
 		{
 			model.addAttribute("insurance", new InsuranceDTO());
@@ -42,8 +78,10 @@ public class InsuranceController extends UiUtils
 		}
 		return "insurance/write";
 	}
+	*/
 	
-	@PostMapping(value = "/insurance/register.do")                        	// 작성한 글을 저장하게 해주는 컨트롤러?
+	// 작성한 글을 저장하게 해주는 컨트롤러
+	@PostMapping(value = "/insurance/register.do")
 	public String registerInsurance(@ModelAttribute("params") final InsuranceDTO params, Model model)
 	{
 		Map<String, Object> pagingParams = getPagingParams(params);
@@ -72,6 +110,7 @@ public class InsuranceController extends UiUtils
 	@GetMapping(value = "/insurance/list.do")                                                              // @GetMapping :: GET방식의 HTTP요청 메서드
 	public String openInsuranceList(@ModelAttribute("params") InsuranceDTO params, HttpServletRequest request, Model model)            // Model :: 컨트롤러에서 화면(view)으로 데이터를 전달할 때 사용되는 인터페이스
 	{
+		// 로그인 된 상태인지 검사 필요
 		List<InsuranceDTO> insuranceList = insuranceService.getInsuranceList(params);                      // insuranceList :: InsuranceService에서 호출한 getInsuranceList 메서드의 실행 결과물을 저장
 		model.addAttribute("requestURI", request.getRequestURI());
 		model.addAttribute("insuranceList", insuranceList); 		
@@ -83,7 +122,11 @@ public class InsuranceController extends UiUtils
 	@GetMapping(value = "/insurance/view.do")
 	public String openInsuranceDetail(@ModelAttribute("params") InsuranceDTO params, @RequestParam(value = "idx", required = false) Long idx, Model model)    // RequestParam :: 특정 게시글 조회에 필요한 게시글 번호를 파라미터 전달받는다. required 속성은 파라미터가 필수 값인지에 대한 여부이며 'idx'가 파라미터로 전달되지 않으면 에러 발생 (여기서는 파라미터가 넘어오지 않을 경우에 대해 직접 처리할 예정이므로 'required' 속성을 'false'로 지정)
 	{
-		if (idx == null) // if문에서 'idx'가 파라미터로 전달되지 않으면 사용자에게 적절한 메시지를 전달하고, 게시글 리스트로 리다이렉트 (정상적인 경우에는 getInsuranceDetail 메서드의 인자로 idx를 전달해서 게시글 정보를 조회. 만약 없는 게시글이거나 삭제된 게시글이라면 사용자에게 적절한 메시지를 전달하고, 게시글 리스트로 리다이렉트 마지막에는 게시글 정보를 화면(View)으로 전달하고, 게시글 상세 페이지를 리턴)
+		// 로그인 된 상태인지 검사 필요
+		// if문에서 'idx'가 파라미터로 전달되지 않으면 사용자에게 적절한 메시지를 전달하고, 게시글 리스트로 리다이렉트
+		// 정상적인 경우에는 getInsuranceDetail 메서드의 인자로 idx를 전달해서 게시글 정보를 조회.
+		// 만약 없는 게시글이거나 삭제된 게시글이라면 사용자에게 적절한 메시지를 전달하고, 게시글 리스트로 리다이렉트 마지막에는 게시글 정보를 화면(View)으로 전달하고, 게시글 상세 페이지를 리턴
+		if (idx == null)
 		{
 			return showMessageWithRedirect("올바르지 않은 접근이다.", "/insurance/list.do", Method.GET, null, model);
 		}
@@ -128,5 +171,6 @@ public class InsuranceController extends UiUtils
 		
 		return showMessageWithRedirect("게시글 삭제가 완료되었습니다.", "/insurance/list.do", Method.GET, pagingParams, model);
 	}
+	
 }
 

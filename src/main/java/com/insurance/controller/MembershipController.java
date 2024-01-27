@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.insurance.constant.Method;
 import com.insurance.domain.MembershipDTO;
 import com.insurance.service.MembershipService;
+import com.insurance.util.UiUtils;
 
 
 @Controller
-public class MembershipController
+// MembershipController 가 UiUtils 클래스의 모든 속성과 메서드를 상속받는다 (extends 사용하여..상속)
+public class MembershipController extends UiUtils
 {
 	@Autowired
 	private MembershipService membershipService;
@@ -61,7 +64,7 @@ public class MembershipController
 		return "redirect:/membership/list.do";
 	}
 	
-	// 로그인 화면 (Get)
+	//  로그인 페이지 출력
 	@GetMapping("/membership/login.do")
 	public String showLoginView(Model model)
 	{
@@ -69,8 +72,7 @@ public class MembershipController
 		return "insurance/login";
 	}
 	
-	
-	// 로그인 Post
+	// login.html의 submit - form:post - 이곳이 실행
 	@PostMapping(value = "membership/login.do")
 	public String loginMembership(@RequestParam("userId") String userId, @RequestParam("userPw") String userPw, Model model)
 	{
@@ -82,22 +84,22 @@ public class MembershipController
 			if (isLogin)
 			{
 				// TODO => 로그인 성공 시 처리
-				model.addAttribute("message", "로그인 성공!");
-				return "redirect:/insurance/list.do";
+				// 자바한테 로그인 상태임을 인식 시켜주기
+				
+				
+				return showMessageWithRedirect("메세지", "경로", Method.GET, null, model);
 			}
 			else
 			{
 				// TODO => 로그인 실패 시 처리
-				model.addAttribute("message", "로그인 실패. 아이디 또는 비밀번호를 확인하세요.");
+				return showMessageWithRedirect(" 실패하였습니다.", "경로", Method.GET, null, model);
 			}
 		}
 		catch (Exception e)
 		{
 			// TODO => 예외 처리
-			model.addAttribute("message", "로그인 중 오류 발생: " + e.getMessage());
+			return showMessageWithRedirect("게시글 등록에 실패하였습니다.", "/insurance/list.do", Method.GET, null, model);
 		}
-		// 로그인 결과를 보여줄 페이지로 이동
-		return "redirect:/membership/login.do";
 	}
 	
 	

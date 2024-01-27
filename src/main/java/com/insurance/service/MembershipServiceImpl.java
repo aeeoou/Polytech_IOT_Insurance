@@ -19,6 +19,7 @@ public class MembershipServiceImpl implements MembershipService
 	private MembershipMapper membershipMapper;
 	
 	@Override
+	// 회원 가입을 처리하는 기능
 	//      함수타입        함수명         매개변수의 타입   매개변수
 	public boolean registerMembership(MembershipDTO params)
 	{
@@ -36,12 +37,14 @@ public class MembershipServiceImpl implements MembershipService
 	}
 	
 	@Override
+	// 회원의 상세 정보를 조회하는 기능
 	public MembershipDTO getMembershipDetail(long idx)
 	{
 		return membershipMapper.selectMembershipDetail(idx);
 	}
 	
 	@Override
+	// 회원을 삭제하는 기능
 	public boolean deleteMembership(long idx)
 	{
 		int queryResult = 0;
