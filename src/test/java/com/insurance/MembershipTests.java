@@ -25,7 +25,8 @@ class MembershipTests
 		params.setUserBirth     ("910409");
 		params.setUserGender    ("M");
 		params.setUserPhone     ("010-2442-0030");
-		params.setQuitYn        ("N");              // 기본값 'N'으로 설정
+		// 기본값 'N'으로 설정
+		params.setQuitYn        ("N");
 		params.setMasterYn      ("N");
 		
 		int result = membershipMapper.insertMembership(params);

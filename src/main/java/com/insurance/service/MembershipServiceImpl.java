@@ -18,8 +18,12 @@ public class MembershipServiceImpl implements MembershipService
 	@Autowired
 	private MembershipMapper membershipMapper;
 	
+	// HttpSession 추가
+	@Autowired
+	private HttpSession httpSession;
+	
 	@Override
-	// 회원 가입을 처리하는 기능
+	// 회원 가입을 처리하는 기능 (회원 가입 로직)
 	//      함수타입        함수명         매개변수의 타입   매개변수
 	public boolean registerMembership(MembershipDTO params)
 	{
@@ -37,14 +41,14 @@ public class MembershipServiceImpl implements MembershipService
 	}
 	
 	@Override
-	// 회원의 상세 정보를 조회하는 기능
+	// 회원의 상세 정보를 조회하는 기능 (회원 상세 정보 조회 로직)
 	public MembershipDTO getMembershipDetail(long idx)
 	{
 		return membershipMapper.selectMembershipDetail(idx);
 	}
 	
 	@Override
-	// 회원을 삭제하는 기능
+	// 회원을 삭제하는 기능 (회원 삭제 로직)
 	public boolean deleteMembership(long idx)
 	{
 		int queryResult = 0;
@@ -60,6 +64,7 @@ public class MembershipServiceImpl implements MembershipService
 	}
 	
 	@Override
+	// 회원 리스트 조회 로직
 	public List<MembershipDTO> getMembershipList()
 	{
 		List<MembershipDTO> membershipList = Collections.emptyList();
@@ -74,8 +79,8 @@ public class MembershipServiceImpl implements MembershipService
 		return membershipList;
 	}
 	
-	// 회원아이디로 정보를 가져오는 함수를 실제 구현하는 곳
 	@Override
+	// 회원아이디로 정보를 가져오는 함수를 실제 구현하는 곳 (회원 아이디로 정보 조회 로직)
 	public MembershipDTO getMembershipByUserId(String userId)
 	{
 		return membershipMapper.selectMembershipByUserId(userId);
@@ -110,11 +115,7 @@ public class MembershipServiceImpl implements MembershipService
 		// 로그인 실패
 		return false;
 	}
-	
-	// 로그아웃
-	@Autowired
-	private HttpSession httpSession;
-	
+
 	@Override
 	public void logout()
 	{

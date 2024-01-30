@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TestController
 {
 	@GetMapping(value = "/message")
-	@ResponseBody // public @ResponseBody String testByResponseBody()와 같이 리턴 타입 좌측에 지정 가능
+	// @ResponseBody String testByResponseBody()와 같이 리턴 타입 좌측에 지정 가능
+	@ResponseBody
 	
 	public Map<Integer, Object> testByResponseBody()
 	{

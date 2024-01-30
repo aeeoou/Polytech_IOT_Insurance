@@ -34,16 +34,19 @@ class CommentTests
 	@Test
 	public void deleteComment()
 	{
-		commentService.deleteComment((long) 164);           // 삭제할 댓글 번호
+		// 삭제할 댓글 번호
+		commentService.deleteComment((long) 164);
 		
 		getCommentList();
 	}
 	
 	@Test
-	public void getCommentList()                         // 등록한 댓글을 조회하는 메서드
+	// 등록한 댓글을 조회하는 메서드
+	public void getCommentList()
 	{
 		CommentDTO params = new CommentDTO();
-		params.setInsuranceIdx((long) 10);               // 댓글을 추가할 게시글 번호
+		// 댓글을 추가할 게시글 번호
+		params.setInsuranceIdx((long) 10);
 		
 		for(CommentDTO comment : commentService.getCommentList(params))
 		{

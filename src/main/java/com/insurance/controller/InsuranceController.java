@@ -11,15 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-// ModelAndView :: 이 객체를 사용하여 로그인 상태를 확인하고, 이에 따라 적절한 뷰로 이동하거나 리다이렉트 한다.
-import org.springframework.web.servlet.ModelAndView;
 
 import com.insurance.constant.Method;
 import com.insurance.domain.InsuranceDTO;
 import com.insurance.service.InsuranceService;
 import com.insurance.util.UiUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class InsuranceController extends UiUtils
@@ -27,40 +25,6 @@ public class InsuranceController extends UiUtils
 	@Autowired
 	private InsuranceService insuranceService;
 
-	@GetMapping(value = "/insurance/write.do")
-	public ModelAndView openInsuranceWrite(@ModelAttribute("params") InsuranceDTO params, @RequestParam(value = "idx", required = false) Long idx)
-	{
-		ModelAndView modelAndView = new ModelAndView();
-		
-		// 사용자가 로그인되어 있는지 확인하기
-		if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated())
-		{
-            if (idx == null)
-            {
-            	modelAndView.addObject("insurance", new InsuranceDTO());
-            
-            } else {
-                InsuranceDTO insurance = insuranceService.getInsuranceDetail(idx);
-                
-                if (insurance == null || "Y".equals(insurance.getDeleteYn()))
-                {
-                    modelAndView.setViewName("redirect:/insurance/list.do");
-                    return modelAndView;
-                }
-                modelAndView.addObject("insurance", insurance);
-            }
-            modelAndView.setViewName("insurance/write");
-            
-        } else {
-        	// 사용자가 로그인되어 있지 않은 경우, 로그인 페이지로 리다이렉트 한다.
-            modelAndView.setViewName("redirect:/membership/login.do");
-        }
-		//
-        return modelAndView;
-    }
-		
-	}
-	/*
 	public String openInsuranceWrite(@ModelAttribute("params") InsuranceDTO params, @RequestParam(value = "idx", required = false) Long idx, Model model)
 	{
 		// 로그인 된 상태인지 검사 필요
@@ -78,7 +42,6 @@ public class InsuranceController extends UiUtils
 		}
 		return "insurance/write";
 	}
-	*/
 	
 	// 작성한 글을 저장하게 해주는 컨트롤러
 	@PostMapping(value = "/insurance/register.do")
@@ -90,8 +53,6 @@ public class InsuranceController extends UiUtils
 		{
 			System.out.println(params);
 			boolean isRegistered = insuranceService.registerInsurance(params);
-			
-			//System.out.println("아아아아");
 			
 			if (isRegistered == false)
 			{
@@ -107,15 +68,26 @@ public class InsuranceController extends UiUtils
 	}
 	
 	// 게시글 목록 처리 - InsuranceController
-	@GetMapping(value = "/insurance/list.do")                                                              // @GetMapping :: GET방식의 HTTP요청 메서드
-	public String openInsuranceList(@ModelAttribute("params") InsuranceDTO params, HttpServletRequest request, Model model)            // Model :: 컨트롤러에서 화면(view)으로 데이터를 전달할 때 사용되는 인터페이스
+	// @GetMapping :: GET방식의 HTTP요청 메서드
+	@GetMapping(value = "/insurance/list.do")
+	// Model :: 컨트롤러에서 화면(view)으로 데이터를 전달할 때 사용되는 인터페이스
+	public String openInsuranceList(@ModelAttribute("params") InsuranceDTO params, HttpSession session, Model model)
 	{
 		// 로그인 된 상태인지 검사 필요
-		List<InsuranceDTO> insuranceList = insuranceService.getInsuranceList(params);                      // insuranceList :: InsuranceService에서 호출한 getInsuranceList 메서드의 실행 결과물을 저장
-		model.addAttribute("requestURI", request.getRequestURI());
+		if (session.getAttribute("loginId") == null)
+		{
+			System.out.println("로그인 안됨");
+			return showMessageWithRedirect("로그인 필요함", "/membership/login.do", Method.GET, null, model);
+		}
+		System.out.println("로그인 되어 있는 중이에요 " + session.getAttribute("loginId"));
+		
+		// insuranceList :: InsuranceService에서 호출한 getInsuranceList 메서드의 실행 결과물을 저장
+		List<InsuranceDTO> insuranceList = insuranceService.getInsuranceList(params);
+		
 		model.addAttribute("insuranceList", insuranceList); 		
 		
-		return "insurance/list";                                                                           // return문 :: 컨트롤러의 리턴 문에 지정된 경로의 HTML이 화면에 출력
+		// return문 :: 컨트롤러의 리턴 문에 지정된 경로의 HTML이 화면에 출력
+		return "insurance/list";
 	}
 	
 	// 게시글 조회 처리 - InsuranceController

@@ -17,22 +17,23 @@ import com.insurance.domain.CommentDTO;
 import com.insurance.service.CommentService;
 import com.google.gson.JsonObject;
 
-@RestController                                                // @RestController :: 선언된 컨트롤러의 모든 메서드는 화면이 아닌, 리턴 타입에 해당하는 데이터 자체를 리턴
+//@RestController :: 선언된 컨트롤러의 모든 메서드는 화면이 아닌, 리턴 타입에 해당하는 데이터 자체를 리턴
+@RestController
 public class CommentController
 {
 	@Autowired
 	private CommentService commentService;
 	
 	// 게시글의 경우, 하나의 URI로 생성(INSERT)과 수정(UPDATE) 처리가 가능하지만, 'REST API'는 설계 규칙을 지켜야 하기 때문에 URI를 구분함
-	 // value "/comments" :: 새로운 댓글 등록, "/comments/{idx} :: 댓글 테이블의 PK인 댓글 번호(idx)에 해당하는 댓글 수정
-	  // RequestMethod.POST  :: HTTP 요청 메서드 중 POST를 의미하며, @PostMapping과 유사
-	  // RequestMethod.PATCH :: HTTP 요청 메서드 중 PATCH를 의미하며, @PatchMapping과 유사 
+	// value "/comments" :: 새로운 댓글 등록, "/comments/{idx} :: 댓글 테이블의 PK인 댓글 번호(idx)에 해당하는 댓글 수정
+	// RequestMethod.POST  :: HTTP 요청 메서드 중 POST를 의미하며, @PostMapping과 유사
+	// RequestMethod.PATCH :: HTTP 요청 메서드 중 PATCH를 의미하며, @PatchMapping과 유사 
 	
 	// RequestBody :: REST 방식의 처리에 사용. 파라미터 앞에 @RequestBody가 지정되면, 파라미터로 전달받은 JSON 문자열을 객체로 변환
-		 // 클라이언트(사용자)는 게시글 번호, 댓글 내용, 댓글 작성자를 JSON 문자열로 전송한다.
-		 // 서버(컨트롤러)는 JSON 문자열을 파라미터로 전달받는다.
-		 // @RequestBody는 전달받은 JSON 문자열을 객체로 변환한다.
-		 // 객체로 변환된 JSON은 CommentDTO 클래스의 객체인 params에 매핑(바인딩)된다.
+	// 클라이언트(사용자)는 게시글 번호, 댓글 내용, 댓글 작성자를 JSON 문자열로 전송한다.
+	// 서버(컨트롤러)는 JSON 문자열을 파라미터로 전달받는다.
+	// @RequestBody는 전달받은 JSON 문자열을 객체로 변환한다.
+	// 객체로 변환된 JSON은 CommentDTO 클래스의 객체인 params에 매핑(바인딩)된다.
 	@RequestMapping(value = { "/comments", "/comments/{idx}" }, method = { RequestMethod.POST, RequestMethod.PATCH })
 	public JsonObject registerComment(@PathVariable(value = "idx", required = false) Long idx, @RequestBody final CommentDTO params)
 	{
@@ -77,12 +78,19 @@ public class CommentController
 		return jsonObj;
 	}
 	
+	// @PathVariable :: @RequestParam과 유사한 기능을 하며, REST 방식에서 리소를 표현할 때 사용
+    // @PathVariable 은 URI에 파라미터로 전달받을 변수 지정
+    // "/comments/{insurance}" URI의 {insurance}는 게시글 번호를 의미하며, @PathVarialbe의 insuranceIdx와 매핑(바인딩)
+	
+	// @ModelAttribute :: 파라미터로 전달받은 객체를 자동으로 화면(뷰)로 전달
+    // 특정 게시글에 등록된 댓글을 조회
+	// 추후 댓글 목록의 페이징 처리에 활용
+	// 로직 :: getCommentList 메서드를 호출한 결과를 commentList에 저장
+	
 	@GetMapping(value = "/comments/{insuranceIdx}")
-	public List<CommentDTO> getCommentList(@PathVariable("insuranceIdx") Long insuranceIdx, @ModelAttribute("params") CommentDTO params)   // @PathVariable :: @RequestParam과 유사한 기능을 하며, REST 방식에서 리소를 표현할 때 사용
-	{                                                                                                                                      //               :: @PathVariable 은 URI에 파라미터로 전달받을 변수 지정
-		List<CommentDTO> commentList = commentService.getCommentList(params);                                                              //               :: "/comments/{insurance}" URI의 {insurance}는 게시글 번호를 의미하며, @PathVarialbe의 insuranceIdx와 매핑(바인딩)
-		return commentList;                                                                                 // @ModelAttribute :: 파라미터로 전달받은 객체를 자동으로 화면(뷰)로 전달
-	}                                                                                                       //                 :: 특정 게시글에 등록된 댓글을 조회
-}                                                                                                           //                 :: 추후 댓글 목록의 페이징 처리에 활용
-
-                                                                                                            // 로직 :: getCommentList 메서드를 호출한 결과를 commentList에 저장
+	public List<CommentDTO> getCommentList(@PathVariable("insuranceIdx") Long insuranceIdx, @ModelAttribute("params") CommentDTO params)
+	{
+		List<CommentDTO> commentList = commentService.getCommentList(params);
+		return commentList;
+	}
+}

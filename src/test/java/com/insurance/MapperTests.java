@@ -44,7 +44,8 @@ class MapperTests
 	}
 	
 	@Test
-	public void testOfSelectDetail()    // testOfUpdate 게시글 조회 기능 메서드 테스트
+	// testOfUpdate 게시글 조회 기능 메서드 테스트
+	public void testOfSelectDetail()
 	{
 		InsuranceDTO insurance = insuranceMapper.selectInsuranceDetail((long) 1);
 		
@@ -62,7 +63,8 @@ class MapperTests
 	}
 	
 	@Test
-	public void testOfUpdate()    // testOfUpdate 게시글 수정 기능 메서드 작성
+	// testOfUpdate 게시글 수정 기능 메서드 작성
+	public void testOfUpdate()
 	{
 		InsuranceDTO params = new InsuranceDTO();
 		
@@ -99,7 +101,8 @@ class MapperTests
 	}
 	
 	@Test
-	public void testOfDelete()    // testOfUpdate 게시글 삭제 기능 메서드 작성
+	// testOfUpdate 게시글 삭제 기능 메서드 작성
+	public void testOfDelete()
 	{
 		int result = insuranceMapper.deleteInsurance((long) 1);
 		
@@ -145,7 +148,8 @@ class MapperTests
 	}
 	
 	@Test
-	public void testSelectList()    // testOfUpdate 게시글 목록 조회 기능 메서드 작성
+	// testOfUpdate 게시글 목록 조회 기능 메서드 작성
+	public void testSelectList()
 	{
 		int insuranceTotalCount = insuranceMapper.selectInsuranceTotalCount(null);
 		

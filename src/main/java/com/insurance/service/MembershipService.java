@@ -2,6 +2,8 @@ package com.insurance.service;
 
 import java.util.List;
 
+import org.apache.catalina.User;
+
 import com.insurance.domain.MembershipDTO;
 
 //컨트롤러에서 부를 수 있는 서비스가 먼저 있어야한다.
