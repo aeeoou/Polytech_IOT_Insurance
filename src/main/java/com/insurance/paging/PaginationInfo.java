@@ -1,5 +1,7 @@
 package com.insurance.paging;
 
+import jakarta.servlet.http.HttpSession;
+
 public class PaginationInfo
 {
 	// 페이지 번호 계산에 필요한 Criteria 클래스의 멤버 변수들에 대한 정보를 가지는 변수

@@ -14,7 +14,6 @@ public interface MembershipService
 	 public MembershipDTO getMembershipDetail(long idx);
 	 // 회원아이디로 정보 가져오는 함수 (추가하기)
 	 public MembershipDTO getMembershipByUserId(String userId);
-	 
 	 public boolean deleteMembership(long idx);
 	 public List<MembershipDTO> getMembershipList();
 	 

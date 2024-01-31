@@ -24,7 +24,7 @@ public class MembershipServiceImpl implements MembershipService
 	
 	@Override
 	// 회원 가입을 처리하는 기능 (회원 가입 로직)
-	//      함수타입        함수명         매개변수의 타입   매개변수
+	//     함수타입        함수명         매개변수의 타입  매개변수
 	public boolean registerMembership(MembershipDTO params)
 	{
 		int queryResult = 0;

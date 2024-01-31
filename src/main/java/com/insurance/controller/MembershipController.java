@@ -25,10 +25,22 @@ public class MembershipController extends UiUtils
 	@Autowired
 	private MembershipService membershipService;
 	
-	// 회원가입
+	// 회원가입 페이지로 이동하기
 	@GetMapping(value = "/membership/write.do")
 	public String openMembershipWrite(@RequestParam(value = "userIdx", required = false) Long idx, HttpSession session, Model model)
 	{
+		/*
+		// 로그인 된 상태인지 검사 필요
+		if (session.getAttribute("loginId") == null)
+		{
+			System.out.println("작성 글 저장 :: 로그인 안됨");
+			
+			return showMessageWithRedirect("작성 글 저장 :: 로그인 필요함", "/membership/login.do", Method.GET, null, model);
+		}
+		System.out.println("작성 글 저장 :: 로그인 되어 있는 중이에요! 아이디 : " + session.getAttribute("loginId"));
+		*/ // 여기 다시 손보기!!! 회원 가입 버튼 눌러보기
+		
+		// 회원가입
 		if (idx == null)
 		{
 			// 회원가입할 때 필요함
@@ -43,7 +55,7 @@ public class MembershipController extends UiUtils
 			}
 			model.addAttribute("membership", membership);
 		}
-		// html 경로
+		// 회원가입 페이지로 이동
 		return "insurance/membership";
 	}
 	
@@ -51,23 +63,6 @@ public class MembershipController extends UiUtils
 	@PostMapping(value = "membership/register.do")
 	public String registerMembership(final MembershipDTO params)
 	{
-		boolean isRegistered = false;
-		// params가 null 인지 아닌지 확인한다.
-		if (params != null)
-		{
-			// membershipService를 통해 params를 이용하여 회원가입을 시도
-			isRegistered = membershipService.registerMembership(params);
-		}
-		
-		// 회원가입에 실패했을 경우에 대한 처리
-		if (!isRegistered)
-		{
-			//TODO => 회원가입에 실패했다는 메시지를 전달하는 로직을 추가
-		}
-		// 회원가입 성공 여부와 관계없이 list.do 페이지로 리다이렉트 한다.
-		return "redirect:/membership/list.do";
-		
-		/*
 		try
 		{
 			boolean isRegistered = membershipService.registerMembership(params);
@@ -82,7 +77,6 @@ public class MembershipController extends UiUtils
 		}
 		// 실패했으니까 다시 list.do로 가라
 		return "redirect:/membership/list.do";
-		*/
 	}
 	
 	//  로그인 페이지 출력
@@ -90,9 +84,9 @@ public class MembershipController extends UiUtils
 	public String showLoginView(HttpSession session, Model model)
 	{
 		// 로그인 상태 확인
-		if (session.getAttribute("loginId")  == null)
+		if (session.getAttribute("loginId") == null)
 		{
-			System.out.println("로그아웃 되었습니다095");
+			System.out.println("현재 로그아웃 상태입니다.");
 			
 			return "insurance/login";
 		
@@ -117,12 +111,12 @@ public class MembershipController extends UiUtils
 				// 세션이 없으면 새로 생성한다.
 				if (session.getAttribute("loginId") == null)
 				{
-					System.out.println("로그인 안 된 상태200");
+					System.out.println("현재 로그아웃 상태입니다.");
 					
 					session.setAttribute("loginId", userId);
 				
 				} else {
-					System.out.println("로그인 된 상태면서, 주제넘게 로그인 시도 함");
+					System.out.println("현재 로그인 상태입니다. 로그아웃 후 시도해주세요.");
 				}
 
 				// 세션 유효시간을 60분으로 설정
@@ -133,15 +127,15 @@ public class MembershipController extends UiUtils
 				return "redirect:/insurance/list.do";
 			
 			} else {
-				// TODO => 로그인 실패 시 처리
-				model.addAttribute("message", "로그인 실패! 아이디 또는 비밀번호를 확인하세요.");
-				
-				return showMessageWithRedirect("로그인 실패하였습니다.", "/membership/login.do", Method.GET, null, model);
+				// 로그인 실패 시 처리
+				model.addAttribute("message", "아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.");
+				// 로그인 실패할 경우, 안내메세지와 함께 로그인 화면으로 이동한다.
+				return showMessageWithRedirect("아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.", "/membership/login.do", Method.GET, null, model);
 			}
 		} catch (Exception e) {
 			model.addAttribute("message", "로그인 중 오류 발생: " + e.getMessage());
 			
-			return showMessageWithRedirect("로그인 실패하였습니다.", "/membership/login.do", Method.GET, null, model);	
+			return showMessageWithRedirect("웹페이지-알 수 없는 이유. 원인불명", "/membership/login.do", Method.GET, null, model);	
 		}
 	}
 	
@@ -160,7 +154,7 @@ public class MembershipController extends UiUtils
 		} catch (Exception e) {
 			// TODO -> 로그아웃 중 예외 처리
 			// 로그아웃 실패 시 메시지 표시 등의 처리
-			model.addAttribute("errorMessage3", "로그아웃에 실패하였습니다.");
+			model.addAttribute("errorMessage157", "로그아웃에 실패하였습니다.");
 			// 로그아웃 중 에러가 발생하더라도 로그인 페이지로 리다이렉트
 			return "redirect:/membership/login.do";
 		}
